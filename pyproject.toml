@@ -34,6 +34,7 @@ issx = "issx.cli:app"
 python = ">=3.11, <4.0"
 python-gitlab = "^4.4.0"
 attrs = "^23.2.0"
+typer = "^0.12.0"
 
 [tool.poetry.group.dev.dependencies]
 mkdocstrings = {version = ">=0.18", extras = ["python"]}
