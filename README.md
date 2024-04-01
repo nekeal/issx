@@ -7,11 +7,9 @@
 
 ---
 
-**Documentation**: [https://nekeal.github.io/issx](https://nekeal.github.io/issx)
-
-**Source Code**: [https://github.com/nekeal/issx](https://github.com/nekeal/issx)
-
-**PyPI**: [https://pypi.org/project/issx/](https://pypi.org/project/issx/)
+[Documentation](https://nekeal.github.io/issx) |
+[Source Code](https://github.com/nekeal/issx) |
+[PyPI](https://pypi.org/project/issx/)
 
 ---
 
@@ -36,6 +34,43 @@ pip install issx
 ### Using pipx
 ```sh
 pipx install issx
+```
+
+## Usage
+
+The basic functionality of `issx` is provided through the `issx` command-line interface (CLI).
+
+Currently, there is only one command available: `copy`.
+
+It allows to copy issues from one place to another.
+As for now, it supports copying issues between **projects in the same backend** (Gitlab).
+
+```shell
+issx copy --source-project-id=<id> --target-project-id=<id> <issue-id>
+```
+
+where `source-project-id` and `target-project-id` are the IDs of the projects in the same backend and
+`issue-id` is the ID of the issue to be copied.
+
+### Authentication
+
+#### Gitlab
+For the Gitlab backend we use the `python-gitlab` package with file-based [configuration](https://python-gitlab.readthedocs.io/en/stable/cli-usage.html#configuration-file-format).
+`issx` will use the configured default section from the configuration file located in `~/.python-gitlab.cfg`
+(`private_instance` in the example below).
+
+```
+[global]
+default = private_instance
+
+[private_instance]
+url = https://private-gitlab.com/
+private_token = <your_private_token>
+```
+
+To validate the authentication, you can use command:
+```shell
+issx auth-verify
 ```
 
 ## Development
