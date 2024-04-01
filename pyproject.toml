@@ -27,9 +27,13 @@ classifiers = [
 packages = [
     { include = "issx", from = "src" }
 ]
+[tool.poetry.scripts]
+issx = "issx.cli:app"
 
 [tool.poetry.dependencies]
 python = ">=3.11, <4.0"
+python-gitlab = "^4.4.0"
+attrs = "^23.2.0"
 
 [tool.poetry.group.dev.dependencies]
 mkdocstrings = {version = ">=0.18", extras = ["python"]}
