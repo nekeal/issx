@@ -3,20 +3,9 @@ from typing import cast
 from gitlab import Gitlab, GitlabGetError
 from gitlab.v4.objects import Project, ProjectIssue
 
+from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
 from issx.clients.interfaces import IssueClientInterface
 from issx.domain.issues import Issue
-
-
-class EntityDoesNotExistError(Exception):
-    pass
-
-
-class IssueDoesNotExistError(EntityDoesNotExistError):
-    pass
-
-
-class ProjectDoesNotExistError(EntityDoesNotExistError):
-    pass
 
 
 class IssueMapper:

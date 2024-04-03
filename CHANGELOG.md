@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Changed
 - Adjust permissions for gh actions
+- Implementation of Redmine issue client interface
 
 ## [0.0.2] - 2024-04-01
 ### Added

@@ -931,6 +931,20 @@ pyyaml = "*"
 semver = "*"
 
 [[package]]
+name = "python-redmine"
+version = "2.5.0"
+description = "Library for communicating with a Redmine project management application"
+optional = false
+python-versions = "<4,>=3.7"
+files = [
+    {file = "python-redmine-2.5.0.tar.gz", hash = "sha256:81bdc529aaf188658e2d07488096c795d03d4e256711bfa3fa3f17b1eecc471b"},
+    {file = "python_redmine-2.5.0-py3-none-any.whl", hash = "sha256:4b9c1dbcf46f96bed963ab48eab432f06c7ae342df9751d04cb54d268e2e8055"},
+]
+
+[package.dependencies]
+requests = ">=2.31.0"
+
+[[package]]
 name = "pyyaml"
 version = "6.0.1"
 description = "YAML parser and emitter for Python"
@@ -1376,4 +1390,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11, <4.0"
-content-hash = "59910e9de623625914c68da52a0d276041b6a783b498a1a6a986c7fb5d8f7de3"
+content-hash = "830b751acde842dc4146dc67ca73a9f144ec812a7132bf4cdab1db7e60409d57"
