@@ -3,6 +3,9 @@ from typing import Any
 
 import tomllib
 
+from issx.clients import SupportedBackend
+from issx.clients.interfaces import InstanceClientInterface
+
 
 class GenericConfigParser:
     def __init__(self, config_file: Path | None = None):
@@ -27,3 +30,22 @@ class GenericConfigParser:
             if location.exists() and location.is_file() and location.suffix == ".toml":
                 return location
         raise FileNotFoundError("No configuration file found")
+
+
+class InstanceManager:
+    backends: dict[SupportedBackend, type[InstanceClientInterface]] = {}
+
+    def __init__(self, config: GenericConfigParser):
+        self.config = config
+
+    @classmethod
+    def register_backend(
+        cls, backend: SupportedBackend, client_class: type[InstanceClientInterface]
+    ) -> None:
+        cls.backends[backend] = client_class
+
+    def get_instance_client(self, instance: str) -> InstanceClientInterface:
+        instance_config = self.config.get_instance_config(instance)
+        backend = SupportedBackend(instance_config["backend"])
+        client_class = self.backends[backend]
+        return client_class.from_config(instance_config)
