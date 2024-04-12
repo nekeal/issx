@@ -1,10 +1,12 @@
+from typing import Self
+
 from redminelib import Redmine
 from redminelib.exceptions import ResourceNotFoundError
 from redminelib.resources import Issue as RedmineIssue
 from redminelib.resources import Project
 
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
-from issx.clients.interfaces import IssueClientInterface
+from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
 from issx.domain.issues import Issue
 
 
@@ -24,11 +26,31 @@ class RedmineIssueMapper:
         )
 
 
-class RedmineClient(IssueClientInterface):
-    def __init__(self, client: Redmine, project_id: int):  # type: ignore[no-any-unimported]
+class RedmineInstanceClient(InstanceClientInterface):
+    def __init__(self, client: Redmine):  # type: ignore[no-any-unimported]
         self.client = client
+
+    async def auth(self) -> str | None:
+        return str(self.client.auth())
+
+    def get_instance_url(self) -> str:
+        return str(self.client.url)
+
+    @classmethod
+    def from_config(cls, config: dict) -> Self:
+        return cls(
+            Redmine(
+                config["url"],
+                key=config["token"],
+            )
+        )
+
+
+class RedmineClient(IssueClientInterface, RedmineInstanceClient):
+    def __init__(self, client: Redmine, project_id: int):  # type: ignore[no-any-unimported]
         self._project_id = project_id
         self._project: Project | None = None  # type: ignore[no-any-unimported]
+        super().__init__(client)
 
     async def create_issue(self, title: str, description: str) -> Issue:
         issue = self.client.issue.create(
