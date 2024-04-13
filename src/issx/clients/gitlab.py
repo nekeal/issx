@@ -78,3 +78,10 @@ class GitlabClient(IssueClientInterface, GitlabInstanceClient):
             raise IssueDoesNotExistError(
                 f"Issue with id={issue_id} does not exist"
             ) from e
+
+    @classmethod
+    def from_config(cls, config: dict) -> Self:
+        return cls(
+            GitlabInstanceClient.from_config(config["instance"]).client,
+            project_id=int(config["project"]),
+        )

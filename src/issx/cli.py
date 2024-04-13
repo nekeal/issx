@@ -7,7 +7,7 @@ from rich.console import Console
 
 from issx.clients import SupportedBackend
 from issx.clients.gitlab import GitlabClient, GitlabInstanceClient
-from issx.clients.redmine import RedmineInstanceClient
+from issx.clients.redmine import RedmineClient, RedmineInstanceClient
 from issx.instance_managers import GenericConfigParser, InstanceManager
 from issx.services import CopyIssueService
 
@@ -18,8 +18,12 @@ InstanceNameOption = Annotated[str, typer.Option("--instance")]
 
 console = Console()
 
-InstanceManager.register_backend(SupportedBackend.gitlab, GitlabInstanceClient)
-InstanceManager.register_backend(SupportedBackend.redmine, RedmineInstanceClient)
+InstanceManager.register_backend(
+    SupportedBackend.gitlab, GitlabInstanceClient, GitlabClient
+)
+InstanceManager.register_backend(
+    SupportedBackend.redmine, RedmineInstanceClient, RedmineClient
+)
 
 
 @app.command()

@@ -78,3 +78,10 @@ class RedmineClient(IssueClientInterface, RedmineInstanceClient):
                     f"Project with id={self._project_id} does not exist"
                 ) from e
         return self._project
+
+    @classmethod
+    def from_config(cls, config: dict) -> Self:
+        return cls(
+            RedmineInstanceClient.from_config(config["instance"]).client,
+            project_id=int(config["project"]),
+        )

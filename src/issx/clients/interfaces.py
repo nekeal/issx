@@ -45,3 +45,8 @@ class IssueClientInterface(abc.ABC):
     @abc.abstractmethod
     async def create_issue(self, title: str, description: str) -> Issue:
         pass
+
+    @classmethod
+    @abc.abstractmethod
+    def from_config(cls, config: dict) -> Self:
+        pass
