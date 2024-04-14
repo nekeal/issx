@@ -42,35 +42,43 @@ The basic functionality of `issx` is provided through the `issx` command-line in
 
 Currently, there is only one command available: `copy`.
 
-It allows to copy issues from one place to another.
-As for now, it supports copying issues between **projects in the same backend** (Gitlab).
+It allows to copy issues from one [configured](#configuration-file) project to another .
 
 ```shell
-issx copy --source-project-id=<id> --target-project-id=<id> <issue-id>
+issx copy --source=<project_name> --target=<project_name> <issue-id>
 ```
 
-where `source-project-id` and `target-project-id` are the IDs of the projects in the same backend and
-`issue-id` is the ID of the issue to be copied.
+where `source` and `target` are the names of the projects configured in the configuration file.
+
+### Configuration file
+
+The configuration file can be either in the working directory (`issx.toml`) or in `~/.config/issx.toml`.
+
+It should have the following structure:
+
+```toml
+[instances.INSTANCE_NAME]
+    backend = "gitlab" / "redmine"
+    url = "<absolute url to the instance>"
+    token = "<API token used for authentication>"
+
+[projects.PROJECT_NAME]
+    instance = "INSTANCE_NAME"
+    project = "<project_id>"
+```
+
+`Instances` section is used to configure the instances of the services (e.g. Gitlab, Redmine)
+that `issx` will interact with.
+
+`Projects` section is used to configure the projects that `issx` will work with. Each project should be associated with
+an instance.
+`project` field should contain the project id available in the chosen instance (usually it is a number).
 
 ### Authentication
 
-#### Gitlab
-For the Gitlab backend we use the `python-gitlab` package with file-based [configuration](https://python-gitlab.readthedocs.io/en/stable/cli-usage.html#configuration-file-format).
-`issx` will use the configured default section from the configuration file located in `~/.python-gitlab.cfg`
-(`private_instance` in the example below).
-
-```
-[global]
-default = private_instance
-
-[private_instance]
-url = https://private-gitlab.com/
-private_token = <your_private_token>
-```
-
-To validate the authentication, you can use command:
+To validate the authentication with a newly configured instance, you can use command `issx auth-verify`:
 ```shell
-issx auth-verify
+issx auth-verify --instance=<instance_name>
 ```
 
 ## Development
