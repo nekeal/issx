@@ -16,7 +16,7 @@ class IssueMapper:
     @classmethod
     def issue_to_domain(cls, issue: ProjectIssue) -> Issue:
         return Issue(
-            id=issue.id,
+            id=issue.iid,
             title=issue.title,
             description=issue.description,
             web_url=issue.web_url,
