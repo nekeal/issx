@@ -6,12 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ## [0.0.4] - 2024-04-14
-### Changed
-- Adjust permissions for gh actions
-- Implementation of Redmine issue client interface
+### Added
 - Add config parser from toml files
 - Add plugin based instance manager
 - Make use of instance manager in auth-verify command
+
+### Changed
+- Adjust permissions for gh actions
+- Implementation of Redmine issue client interface
 - Extend instance manager with possibility to initialize issue client
 - Adapt copy command to work with any configured project
 
@@ -24,4 +26,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 [Unreleased]: https://github.com/nekeal/issx/compare/0.0.4...master
 [0.0.4]: https://github.com/nekeal/issx/compare/0.0.2...0.0.4
 [0.0.2]: https://github.com/nekeal/issx/tree/0.0.2
-
