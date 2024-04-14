@@ -7,3 +7,4 @@ from issx.clients.gitlab import GitlabClient
 
 class SupportedBackend(StrEnum):
     gitlab = "gitlab"
+    redmine = "redmine"

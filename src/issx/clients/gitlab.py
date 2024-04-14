@@ -1,10 +1,10 @@
-from typing import cast
+from typing import Self, cast
 
 from gitlab import Gitlab, GitlabGetError
 from gitlab.v4.objects import Project, ProjectIssue
 
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
-from issx.clients.interfaces import IssueClientInterface
+from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
 from issx.domain.issues import Issue
 
 
@@ -24,11 +24,29 @@ class IssueMapper:
         )
 
 
-class GitlabClient(IssueClientInterface):
-    def __init__(self, client: Gitlab, project_id: int):
+class GitlabInstanceClient(InstanceClientInterface):
+    @classmethod
+    def from_config(cls, config: dict) -> Self:
+        return cls(Gitlab(config["url"], private_token=config["token"]))
+
+    def __init__(self, client: Gitlab):
         self.client = client
+
+    async def auth(self) -> str | None:
+        self.client.auth()
+        if user := self.client.user:
+            return cast(str, user.username)
+        return None
+
+    def get_instance_url(self) -> str:
+        return self.client.url
+
+
+class GitlabClient(IssueClientInterface, GitlabInstanceClient):
+    def __init__(self, client: Gitlab, project_id: int):
         self.project_id = project_id
         self._project: Project | None = None
+        super().__init__(client)
 
     async def create_issue(self, title: str, description: str) -> Issue:
         project = await self._get_project()
@@ -60,3 +78,10 @@ class GitlabClient(IssueClientInterface):
             raise IssueDoesNotExistError(
                 f"Issue with id={issue_id} does not exist"
             ) from e
+
+    @classmethod
+    def from_config(cls, config: dict) -> Self:
+        return cls(
+            GitlabInstanceClient.from_config(config["instance"]).client,
+            project_id=int(config["project"]),
+        )
