@@ -64,9 +64,7 @@ class RedmineClient(IssueClientInterface, RedmineInstanceClient):
         try:
             issue = self.client.issue.get(issue_id)
         except ResourceNotFoundError as e:
-            raise IssueDoesNotExistError(
-                f"Issue with id={issue_id} does not exist"
-            ) from e
+            raise IssueDoesNotExistError(issue_id) from e
         return RedmineIssueMapper.issue_to_domain(issue)
 
     async def get_project(self) -> Project:  # type: ignore[no-any-unimported]

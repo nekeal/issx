@@ -75,9 +75,7 @@ class GitlabClient(IssueClientInterface, GitlabInstanceClient):
         try:
             return project.issues.get(issue_id)
         except GitlabGetError as e:
-            raise IssueDoesNotExistError(
-                f"Issue with id={issue_id} does not exist"
-            ) from e
+            raise IssueDoesNotExistError(issue_id) from e
 
     @classmethod
     def from_config(cls, config: dict) -> Self:
