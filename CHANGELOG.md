@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Adjust permissions for gh actions
 - Implementation of Redmine issue client interface
+- Add config parser from toml files
+- Add plugin based instance manager
+- Make use of instance manager in auth-verify command
+- Extend instance manager with possibility to initialize issue client
+- Adapt copy command to work with any configured project
 
 ## [0.0.2] - 2024-04-01
 ### Added
