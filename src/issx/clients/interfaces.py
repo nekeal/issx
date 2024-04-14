@@ -40,6 +40,12 @@ class InstanceClientInterface(abc.ABC):
 class IssueClientInterface(abc.ABC):
     @abc.abstractmethod
     async def get_issue(self, issue_id: int) -> Issue:
+        """
+        Retrieve an issue by its ID.
+        Raises IssueDoesNotExistError if the issue does not exist.
+        :param issue_id: The ID of the issue
+        :return: Issue object
+        """
         pass
 
     @abc.abstractmethod
