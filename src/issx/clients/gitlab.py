@@ -16,7 +16,7 @@ class IssueMapper:
     @classmethod
     def issue_to_domain(cls, issue: ProjectIssue) -> Issue:
         return Issue(
-            id=issue.id,
+            id=issue.iid,
             title=issue.title,
             description=issue.description,
             web_url=issue.web_url,
@@ -75,9 +75,7 @@ class GitlabClient(IssueClientInterface, GitlabInstanceClient):
         try:
             return project.issues.get(issue_id)
         except GitlabGetError as e:
-            raise IssueDoesNotExistError(
-                f"Issue with id={issue_id} does not exist"
-            ) from e
+            raise IssueDoesNotExistError(issue_id) from e
 
     @classmethod
     def from_config(cls, config: dict) -> Self:

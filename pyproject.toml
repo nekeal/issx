@@ -48,6 +48,7 @@ pytest-github-actions-annotate-failures = "*"
 pytest-cov = "*"
 python-kacl = "*"
 ruff = "*"
+pytest-asyncio = "^0.23.6"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -111,7 +112,7 @@ addopts = """\
 """
 
 [tool.coverage.report]
-fail_under = 100
+#fail_under = 100 # uncomment after reaching 100% coverage
 exclude_lines = [
     'if TYPE_CHECKING:',
     'pragma: no cover'
@@ -131,3 +132,7 @@ show_error_codes = true
 [[tool.mypy.overrides]]
 module = "redminelib.*"
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false

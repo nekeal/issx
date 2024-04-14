@@ -43,6 +43,24 @@ def copy(
         ),
     ],
     issue_id: int,
+    title_format: Annotated[
+        str,
+        typer.Option(
+            "--title-format",
+            "-T",
+            help="Template of a new issue title. Can contain placeholders of the"
+            " issue attributes: {id}, {title}, {description}, {web_url}, {reference}",
+        ),
+    ] = "{title}",
+    description_format: Annotated[
+        str,
+        typer.Option(
+            "--description-format",
+            "-D",
+            help="Template of a new issue description. Can contain placeholders of the"
+            " issue attributes: {id}, {title}, {description}, {web_url}, {reference}",
+        ),
+    ] = "{description}",
 ) -> int:
     console.print(
         Text.assemble(
@@ -62,7 +80,9 @@ def copy(
         console.print("Error when configuring client instance.\n", style="red")
         raise typer.Exit(1) from e
     new_issue = asyncio.run(
-        CopyIssueService(source_client, target_client).copy(issue_id)
+        CopyIssueService(source_client, target_client).copy(
+            issue_id, title_format, description_format
+        )
     )
     console.print(f"Success!\n{new_issue}", style="green")
     return 0
