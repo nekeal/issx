@@ -48,3 +48,36 @@ class TestCopyIssueService:
         copied_issue = await service.copy(issue.id)
 
         assert await client_2.get_issue(copied_issue.id) == copied_issue
+
+    @pytest.mark.asyncio
+    async def test_copy_issue_can_use_title_template(
+        self,
+        client_1: IssueClientInterface,
+        client_2: IssueClientInterface,
+        issue: Issue,
+    ):
+        service = CopyIssueService(client_1, client_2)
+
+        copied_issue = await service.copy(
+            issue.id, title_format="{id} (copied) - {title}"
+        )
+
+        assert copied_issue.title == f"{issue.id} (copied) - {issue.title}"
+
+    @pytest.mark.asyncio
+    async def test_copy_issue_can_use_description_template(
+        self,
+        client_1: IssueClientInterface,
+        client_2: IssueClientInterface,
+        issue: Issue,
+    ):
+        service = CopyIssueService(client_1, client_2)
+
+        copied_issue = await service.copy(
+            issue.id, description_format="{web_url}\n {description} (copied)"
+        )
+
+        assert (
+            copied_issue.description
+            == f"{issue.web_url}\n {issue.description} (copied)"
+        )

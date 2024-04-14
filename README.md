@@ -50,6 +50,9 @@ issx copy --source=<project_name> --target=<project_name> <issue-id>
 
 where `source` and `target` are the names of the projects configured in the configuration file.
 
+Optionally you can customize the issue title and description by providing `--title-format/-T` and `--description-format/-D` flags.
+The format should be a string with placeholders for the issue fields (e.g. `{title}`, `{description}`, `{id}` etc.).
+
 ### Configuration file
 
 The configuration file can be either in the working directory (`issx.toml`) or in `~/.config/issx.toml`.
