@@ -4,6 +4,7 @@ from redminelib import Redmine
 from redminelib.exceptions import ResourceNotFoundError
 from redminelib.resources import Issue as RedmineIssue
 from redminelib.resources import Project
+from redminelib.resultsets import ResourceSet
 
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
@@ -24,6 +25,10 @@ class RedmineIssueMapper:
             web_url=issue.url,
             reference=issue.id,
         )
+
+    @classmethod
+    def issues_to_domain_list(cls, issues: ResourceSet) -> list[Issue]:  # type: ignore[no-any-unimported]
+        return [cls.issue_to_domain(issue) for issue in issues]
 
 
 class RedmineInstanceClient(InstanceClientInterface):
@@ -66,6 +71,13 @@ class RedmineClient(IssueClientInterface, RedmineInstanceClient):
         except ResourceNotFoundError as e:
             raise IssueDoesNotExistError(issue_id) from e
         return RedmineIssueMapper.issue_to_domain(issue)
+
+    async def find_issues(self, title: str) -> list[Issue]:
+        return RedmineIssueMapper.issues_to_domain_list(
+            self.client.issue.filter(
+                project_id=(await self.get_project()).id, subject=title
+            )
+        )
 
     async def get_project(self) -> Project:  # type: ignore[no-any-unimported]
         if self._project is None:

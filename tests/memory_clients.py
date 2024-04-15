@@ -34,6 +34,9 @@ class InMemoryIssueClient(IssueClientInterface):
         self._current_id += 1
         return issue
 
+    async def find_issues(self, title: str) -> list[Issue]:
+        return [issue for issue in self.issues.values() if issue.title == title]
+
     @classmethod
     def from_config(cls, config: dict) -> "InMemoryIssueClient":
         """

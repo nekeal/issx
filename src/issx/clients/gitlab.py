@@ -23,6 +23,10 @@ class IssueMapper:
             reference=issue.references["full"],
         )
 
+    @classmethod
+    def issues_to_domain_list(cls, issues: list[ProjectIssue]) -> list[Issue]:
+        return [cls.issue_to_domain(issue) for issue in issues]
+
 
 class GitlabInstanceClient(InstanceClientInterface):
     @classmethod
@@ -59,6 +63,11 @@ class GitlabClient(IssueClientInterface, GitlabInstanceClient):
     async def get_issue(self, issue_id: int) -> Issue:
         issue: ProjectIssue = await self._get_issue(issue_id)
         return IssueMapper.issue_to_domain(issue)
+
+    async def find_issues(self, title: str) -> list[Issue]:
+        project = await self._get_project()
+        issues = cast(list[ProjectIssue], list(project.issues.list(search=title)))
+        return IssueMapper.issues_to_domain_list(issues)
 
     async def _get_project(self) -> Project:
         if self._project is None:
