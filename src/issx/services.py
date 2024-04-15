@@ -14,10 +14,27 @@ class CopyIssueService:
         issue_id: int,
         title_format: str = "{title}",
         description_format: str = "{description}",
+        allow_duplicates: bool = False,
     ) -> Issue:
+        """
+        Copy an issue from the source client to the target client optionally
+        applying a title and description format. If allow_duplicates is False,
+        the method will return a first issue found with the same title.
+
+        :param issue_id: The ID of the issue to copy
+        :param title_format: The format for the new issue title
+        :param description_format: The format for the new issue description
+        :param allow_duplicates: Whether to allow duplicate issues
+        :return: Newly created or existing issue in the target client
+        """
         source_issue = await self.source_client.get_issue(issue_id)
+        target_title = self._prepare_string(source_issue, title_format)
+        if not allow_duplicates and (
+            issues := await self.target_client.find_issues(target_title)
+        ):
+            return issues[0]
         new_issue = await self.target_client.create_issue(
-            title=self._prepare_string(source_issue, title_format),
+            title=target_title,
             description=self._prepare_string(source_issue, description_format),
         )
         return new_issue

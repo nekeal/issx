@@ -81,3 +81,36 @@ class TestCopyIssueService:
             copied_issue.description
             == f"{issue.web_url}\n {issue.description} (copied)"
         )
+
+    @pytest.mark.asyncio
+    async def test_copy_issue_does_not_create_duplicate(
+        self, client_1, client_2, issue: Issue
+    ):
+        title_format = "{id} - {title}"
+        service = CopyIssueService(client_1, client_2)
+
+        copied_issue_1 = await service.copy(
+            issue.id, title_format=title_format, allow_duplicates=False
+        )
+        copied_issue_2 = await service.copy(
+            issue.id, title_format=title_format, allow_duplicates=False
+        )
+
+        assert copied_issue_1.title == f"{issue.id} - {issue.title}"
+        assert copied_issue_2 == copied_issue_1
+
+    @pytest.mark.asyncio
+    async def test_copy_issue_creates_duplicate(self, client_1, client_2, issue: Issue):
+        title_format = "{id} - {title}"
+        service = CopyIssueService(client_1, client_2)
+
+        copied_issue_1 = await service.copy(
+            issue.id, title_format=title_format, allow_duplicates=True
+        )
+        copied_issue_2 = await service.copy(
+            issue.id, title_format=title_format, allow_duplicates=True
+        )
+
+        assert copied_issue_1.title == f"{issue.id} - {issue.title}"
+        assert copied_issue_2.title == f"{issue.id} - {issue.title}"
+        assert copied_issue_2 != copied_issue_1
