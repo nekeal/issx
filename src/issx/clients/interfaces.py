@@ -52,6 +52,15 @@ class IssueClientInterface(abc.ABC):
     async def create_issue(self, title: str, description: str) -> Issue:
         pass
 
+    @abc.abstractmethod
+    async def find_issues(self, title: str) -> list[Issue]:
+        """
+        Find issues by title using an exact match.
+        :param title: The title of the issue
+        :return: List of issues
+        """
+        pass
+
     @classmethod
     @abc.abstractmethod
     def from_config(cls, config: dict) -> Self:

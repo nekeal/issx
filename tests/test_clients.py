@@ -1,4 +1,5 @@
 import abc
+import asyncio
 from abc import abstractmethod
 
 import pytest
@@ -42,6 +43,20 @@ class BaseTestIssueClientInterface(abc.ABC):
         retrieved_issue = await issue_client.get_issue(existing_issue.id)
 
         assert existing_issue == retrieved_issue
+
+    @pytest.mark.asyncio
+    async def test_find_issues_returns_a_list_of_issues(self, issue_client):
+        async with asyncio.TaskGroup() as g:
+            issue1_task = g.create_task(
+                issue_client.create_issue("Title 1", "Description 1")
+            )
+            g.create_task(issue_client.create_issue("Title 2", "Description 2"))
+
+        issues = await issue_client.find_issues("Title 1")
+
+        assert len(issues) == 1
+        assert issues[0].title == "Title 1"
+        assert issues[0].id == issue1_task.result().id
 
 
 class TestIssueClientInterface(BaseTestIssueClientInterface):
