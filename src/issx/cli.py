@@ -61,6 +61,16 @@ def copy(
             " issue attributes: {id}, {title}, {description}, {web_url}, {reference}",
         ),
     ] = "{description}",
+    allow_duplicates: Annotated[
+        bool,
+        typer.Option(
+            "--allow-duplicates",
+            "-A",
+            help="Allow for duplicate issues. If set, the command will return the first"
+            " issue found with the same title. If no issues are found,"
+            " a new issue will be created.",
+        ),
+    ] = False,
 ) -> int:
     console.print(
         Text.assemble(
@@ -81,7 +91,10 @@ def copy(
         raise typer.Exit(1) from e
     new_issue = asyncio.run(
         CopyIssueService(source_client, target_client).copy(
-            issue_id, title_format, description_format
+            issue_id,
+            title_format,
+            description_format,
+            allow_duplicates=allow_duplicates,
         )
     )
     console.print(f"Success!\n{new_issue}", style="green")

@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Add method for finding issues by a title to the client interface
+- Possibility to allow for duplicate issues when copying (based on title)
 
 ## [0.1.0] - 2024-04-14
 ### Added
