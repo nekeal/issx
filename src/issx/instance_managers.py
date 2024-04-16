@@ -1,7 +1,6 @@
+import tomllib
 from pathlib import Path
 from typing import Any
-
-import tomllib
 
 from issx.clients import SupportedBackend
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
