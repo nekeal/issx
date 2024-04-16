@@ -18,20 +18,23 @@ repos:
       - id: ruff format
         name: ruff-format
         entry: poetry run ruff format
+        require_serial: true
         language: system
-        types: [python]
+        types: [ python ]
+      - id: ruff
+        name: ruff
+        # Remove --fix, in case you want it to disable autofix when this hook runs
+        entry: poetry run ruff check --fix --force-exclude
+        require_serial: true
+        language: system
+        types: [ python ]
       - id: mypy
         name: mypy
         entry: poetry run mypy .
         require_serial: true
         language: system
-        types: [python]
+        types: [ python ]
         pass_filenames: false
-      - id: ruff
-        name: ruff
-        entry: poetry run ruff --fix
-        language: system
-        types: [python]
       - id: kacl-verify
         name: kacl-verify
         entry: poetry run kacl-cli verify

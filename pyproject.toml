@@ -38,7 +38,7 @@ typer = "^0.12.0"
 python-redmine = "^2.5.0"
 
 [tool.poetry.group.dev.dependencies]
-mkdocstrings = {version = ">=0.18", extras = ["python"]}
+mkdocstrings = {version = ">=0.23", extras = ["python"]}
 mkdocs-material = "*"
 mypy = "*"
 pre-commit = "*"
@@ -55,6 +55,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
+target-version = "py311"
 exclude = [
     ".git",
     "__pycache__",
@@ -92,15 +93,18 @@ select = [
     "C9", # mccabe
 ]
 
+[tool.ruff.lint.per-file-ignores]
+"*/__init__.py" = ["F401"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
 [tool.ruff.lint.pep8-naming]
 classmethod-decorators = [
     "classmethod",
-    "validator",
-    "root_validator",
+    "pydantic.validator",
+    "pydantic.root_validator",
 ]
-
-[tool.ruff.lint.per-file-ignores]
-"*/__init__.py" = ["F401"]
 
 
 [tool.pytest.ini_options]
