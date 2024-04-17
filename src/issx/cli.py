@@ -71,6 +71,7 @@ def copy(
             " a new issue will be created.",
         ),
     ] = False,
+    assign_to_me: Annotated[bool, typer.Option("--assign-to-me", "-M")] = False,
 ) -> int:
     console.print(
         Text.assemble(
@@ -95,6 +96,7 @@ def copy(
             title_format,
             description_format,
             allow_duplicates=allow_duplicates,
+            assign_to_me=assign_to_me,
         )
     )
     console.print(f"Success!\n{new_issue}", style="green")

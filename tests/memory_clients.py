@@ -22,7 +22,9 @@ class InMemoryIssueClient(IssueClientInterface):
             return issue
         raise IssueDoesNotExistError(issue_id)
 
-    async def create_issue(self, title: str, description: str) -> Issue:
+    async def create_issue(
+        self, title: str, description: str, assign_to_me: bool = False
+    ) -> Issue:
         issue = Issue(
             id=self._current_id,
             title=title,
