@@ -71,7 +71,14 @@ def copy(
             " a new issue will be created.",
         ),
     ] = False,
-    assign_to_me: Annotated[bool, typer.Option("--assign-to-me", "-M")] = False,
+    assign_to_me: Annotated[
+        bool,
+        typer.Option(
+            "--assign-to-me",
+            "-M",
+            help="Whether to assign a newly created issue to the current user",
+        ),
+    ] = False,
 ) -> int:
     console.print(
         Text.assemble(
