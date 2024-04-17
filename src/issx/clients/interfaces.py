@@ -49,7 +49,16 @@ class IssueClientInterface(abc.ABC):
         pass
 
     @abc.abstractmethod
-    async def create_issue(self, title: str, description: str) -> Issue:
+    async def create_issue(
+        self, title: str, description: str, assign_to_me: bool = False
+    ) -> Issue:
+        """
+        Create a new issue.
+        :param title: The title of the issue
+        :param description: The description of the issue
+        :param assign_to_me: Assign the issue to the authenticated user
+        :return:
+        """
         pass
 
     @abc.abstractmethod

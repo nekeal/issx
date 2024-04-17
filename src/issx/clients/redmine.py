@@ -57,11 +57,14 @@ class RedmineClient(IssueClientInterface, RedmineInstanceClient):
         self._project: Project | None = None  # type: ignore[no-any-unimported]
         super().__init__(client)
 
-    async def create_issue(self, title: str, description: str) -> Issue:
+    async def create_issue(
+        self, title: str, description: str, assign_to_me: bool = False
+    ) -> Issue:
         issue = self.client.issue.create(
             project_id=(await self.get_project()).id,
             subject=title,
             description=description,
+            assigned_to_id="me" if assign_to_me else None,
         )
         return RedmineIssueMapper.issue_to_domain(issue)
 

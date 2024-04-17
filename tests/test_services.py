@@ -114,3 +114,14 @@ class TestCopyIssueService:
         assert copied_issue_1.title == f"{issue.id} - {issue.title}"
         assert copied_issue_2.title == f"{issue.id} - {issue.title}"
         assert copied_issue_2 != copied_issue_1
+
+    @pytest.mark.asyncio
+    @pytest.mark.xfail
+    async def test_copy_issues_respects_assign_to_me_argument(
+        self, client_1, client_2, issue: Issue
+    ):
+        service = CopyIssueService(client_1, client_2)
+
+        copied_issue = await service.copy(issue.id, assign_to_me=True)
+
+        assert copied_issue.assignee == client_2.auth()  # type: ignore[attr-defined]

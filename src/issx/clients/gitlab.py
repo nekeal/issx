@@ -1,7 +1,7 @@
 from typing import Self, cast
 
 from gitlab import Gitlab, GitlabGetError
-from gitlab.v4.objects import Project, ProjectIssue
+from gitlab.v4.objects import CurrentUser, Project, ProjectIssue
 
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
@@ -42,6 +42,12 @@ class GitlabInstanceClient(InstanceClientInterface):
             return cast(str, user.username)
         return None
 
+    def get_user(self) -> CurrentUser:
+        self.client.auth()
+        if not self.client.user:
+            raise ValueError("Cannot get user from Gitlab client")
+        return self.client.user
+
     def get_instance_url(self) -> str:
         return self.client.url
 
@@ -52,11 +58,19 @@ class GitlabClient(IssueClientInterface, GitlabInstanceClient):
         self._project: Project | None = None
         super().__init__(client)
 
-    async def create_issue(self, title: str, description: str) -> Issue:
+    async def create_issue(
+        self, title: str, description: str, assign_to_me: bool = False
+    ) -> Issue:
         project = await self._get_project()
         issue: ProjectIssue = cast(
             ProjectIssue,
-            project.issues.create({"title": title, "description": description}),
+            project.issues.create(
+                {
+                    "title": title,
+                    "description": description,
+                    "assignee_id": self.get_user().id,
+                }
+            ),
         )
         return IssueMapper.issue_to_domain(issue)
 

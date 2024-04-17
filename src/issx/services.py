@@ -15,6 +15,7 @@ class CopyIssueService:
         title_format: str = "{title}",
         description_format: str = "{description}",
         allow_duplicates: bool = False,
+        assign_to_me: bool = False,
     ) -> Issue:
         """
         Copy an issue from the source client to the target client optionally
@@ -25,6 +26,7 @@ class CopyIssueService:
         :param title_format: The format for the new issue title
         :param description_format: The format for the new issue description
         :param allow_duplicates: Whether to allow duplicate issues
+        :param assign_to_me: Whether to assign the new issue to the current user
         :return: Newly created or existing issue in the target client
         """
         source_issue = await self.source_client.get_issue(issue_id)
@@ -36,6 +38,7 @@ class CopyIssueService:
         new_issue = await self.target_client.create_issue(
             title=target_title,
             description=self._prepare_string(source_issue, description_format),
+            assign_to_me=assign_to_me,
         )
         return new_issue
 
