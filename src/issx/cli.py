@@ -80,6 +80,8 @@ def copy(
         ),
     ] = False,
 ) -> int:
+    """Copy an issue from one project to another."""
+
     console.print(
         Text.assemble(
             f"Copying issue {issue_id} from project ",
@@ -112,6 +114,7 @@ def copy(
 
 @app.command()
 def auth_verify(instance_name: InstanceNameOption) -> None:
+    """Verify the authentication to the instance."""
     config = GenericConfigParser()
     instance_manager = InstanceManager(config)
     try:

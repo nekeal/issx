@@ -36,15 +36,19 @@ pip install issx
 pipx install issx
 ```
 
-## Usage
+## Basic usage
 
 The basic functionality of `issx` is provided through the `issx` command-line interface (CLI).
+For a full list of available commands and options, please refer to the [CLI reference](https://nekeal.github.io/issx/cli_reference).
 
-Currently, there is only one command available: `copy`.
+!!! warning
+    The `issx` CLI requires a configuration file to be present in the working directory (`issx.toml`) or in `~/.config/issx.toml`.
+    Refer to the [Configuration file](#configuration-file) section for more information.
 
-It allows to copy issues from one [configured](#configuration-file) project to another .
+### Copying issues
+It allows to copy issues from one [configured](#configuration-file) project to another.
 
-```shell
+```shell title="Copy an issue"
 issx copy --source=<project_name> --target=<project_name> <issue-id>
 ```
 
@@ -55,7 +59,17 @@ The format should be a string with placeholders for the issue fields (e.g. `{tit
 
 Assigning the issue to the current user is also possible by providing `--assign-to-me/-M` flag.
 
-### Configuration file
+```shell title="Copy an issue with custom title and description assigning it to the current user"
+issx copy --source=<project_name> --target=<project_name>  -T "[copied] {title}" -D "Description: {description}" -M <issue-id>
+```
+
+### Verifying authentication
+To validate the authentication with a newly configured instance, you can use command `issx auth-verify`:
+```shell
+issx auth-verify --instance=<instance_name>
+```
+
+## Configuration file
 
 The configuration file can be either in the working directory (`issx.toml`) or in `~/.config/issx.toml`.
 
@@ -78,13 +92,6 @@ that `issx` will interact with.
 `Projects` section is used to configure the projects that `issx` will work with. Each project should be associated with
 an instance.
 `project` field should contain the project id available in the chosen instance (usually it is a number).
-
-### Authentication
-
-To validate the authentication with a newly configured instance, you can use command `issx auth-verify`:
-```shell
-issx auth-verify --instance=<instance_name>
-```
 
 ## Development
 
@@ -113,7 +120,7 @@ pytest
 ### Documentation
 
 The documentation is automatically generated from the content of the [docs directory](https://github.com/nekeal/issx/tree/master/docs) and from the docstrings
- of the public signatures of the sourc[draft_release.yml.rej](.github%2Fworkflows%2Fdraft_release.yml.rej)e code. The documentation is updated and published as a [Github Pages page](https://pages.github.com/) automatically as part each release.
+ of the public signatures of the source code. The documentation is updated and published as a [Github Pages page](https://pages.github.com/) automatically as part each release.
 
 ### Releasing
 

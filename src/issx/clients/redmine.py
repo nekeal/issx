@@ -52,6 +52,8 @@ class RedmineInstanceClient(InstanceClientInterface):
 
 
 class RedmineClient(IssueClientInterface, RedmineInstanceClient):
+    """Redmine client implementation"""
+
     def __init__(self, client: Redmine, project_id: int):  # type: ignore[no-any-unimported]
         self._project_id = project_id
         self._project: Project | None = None  # type: ignore[no-any-unimported]

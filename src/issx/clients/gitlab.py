@@ -53,6 +53,8 @@ class GitlabInstanceClient(InstanceClientInterface):
 
 
 class GitlabClient(IssueClientInterface, GitlabInstanceClient):
+    """Gitlab client implementations"""
+
     def __init__(self, client: Gitlab, project_id: int):
         self.project_id = project_id
         self._project: Project | None = None

@@ -19,7 +19,7 @@ class CopyIssueService:
     ) -> Issue:
         """
         Copy an issue from the source client to the target client optionally
-        applying a title and description format. If allow_duplicates is False,
+        applying a title and description format. If `allow_duplicates` is `False`,
         the method will return a first issue found with the same title.
 
         :param issue_id: The ID of the issue to copy

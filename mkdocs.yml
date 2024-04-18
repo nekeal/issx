@@ -3,6 +3,8 @@ repo_url: https://github.com/nekeal/issx
 
 theme:
   name: material
+  features:
+    - content.code.copy
   palette:
     - scheme: default
       toggle:
@@ -15,12 +17,27 @@ theme:
 
 nav:
   - Introduction: 'index.md'
+  - CLI Usage: cli_usage.md
+  - Supported Backends: backends.md
   - api_docs.md
   - changelog.md
 
 markdown_extensions:
+  - toc:
+      title: On this page
+      permalink: true
   - pymdownx.snippets:
       check_paths: true
+  - admonition: {}
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 plugins:
   - search:
@@ -28,7 +45,15 @@ plugins:
       default_handler: python
       handlers:
         python:
+          paths: ["src"]
           options:
+            docstring_style: sphinx
             show_signature_annotations: true
+            separate_signature: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
             show_source: true
             show_submodules: true
+            show_headings: true
+            show_inherited_members: true
+            show_root_toc_entry: true
