@@ -51,4 +51,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/python-poetry-env
+        with:
+          additional-flags: '--only docs'
       - run: poetry run mkdocs build
