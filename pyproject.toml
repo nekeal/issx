@@ -46,6 +46,7 @@ pytest-cov = "*"
 python-kacl = "*"
 ruff = "*"
 pytest-asyncio = "^0.23.6"
+import-linter = "^2.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocstrings = {version = ">=0.23", extras = ["python"]}
@@ -144,3 +145,16 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = "tests.*"
 disallow_untyped_defs = false
+
+[tool.importlinter]
+root_package = "issx"
+
+[[tool.importlinter.contracts]]
+name = "Layered Architecture"
+type = "layers"
+layers = [
+    "issx.cli",
+    "issx.services | issx.instance_managers",
+    "issx.clients",
+    "issx.domain",
+]

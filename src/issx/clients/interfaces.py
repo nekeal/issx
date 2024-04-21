@@ -1,8 +1,8 @@
 import abc
 from typing import Self
 
+from issx.domain.config import InstanceConfig, ProjectFlatConfig
 from issx.domain.issues import Issue
-from issx.instance_managers.config_parser import InstanceConfig, ProjectFlatConfig
 
 
 class InstanceClientInterface(abc.ABC):

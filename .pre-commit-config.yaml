@@ -36,6 +36,12 @@ repos:
         language: system
         types: [ python ]
         pass_filenames: false
+      - id: import-linter
+        name: import-linter
+        entry: poetry run lint-imports
+        language: system
+        types: [ python ]
+        pass_filenames: false
       - id: kacl-verify
         name: kacl-verify
         entry: poetry run kacl-cli verify

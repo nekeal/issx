@@ -1,5 +1,5 @@
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
-from issx.instance_managers import SupportedBackend
+from issx.domain import SupportedBackend
 from issx.instance_managers.config_parser import GenericConfigParser
 
 
