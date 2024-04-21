@@ -18,8 +18,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/python-poetry-env
-        with:
-            additional-flags: '--only docs'
       - name: Update version
         id: updated_version
         shell: bash
