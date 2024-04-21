@@ -1,10 +1,4 @@
-from enum import StrEnum
-
-__all__ = ["SupportedBackend", "GitlabClient"]
+__all__ = ["GitlabClient", "RedmineClient"]
 
 from issx.clients.gitlab import GitlabClient
-
-
-class SupportedBackend(StrEnum):
-    gitlab = "gitlab"
-    redmine = "redmine"
+from issx.clients.redmine import RedmineClient

@@ -3,8 +3,10 @@ import tomllib
 from pathlib import Path
 
 import pytest
-from issx.clients import SupportedBackend
 from issx.instance_managers import (
+    SupportedBackend,
+)
+from issx.instance_managers.config_parser import (
     GenericConfig,
     GenericConfigParser,
     InstanceConfig,
