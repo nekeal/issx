@@ -9,6 +9,7 @@ from redminelib.resultsets import ResourceSet
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
 from issx.domain.issues import Issue
+from issx.instance_managers.config_parser import InstanceConfig, ProjectFlatConfig
 
 
 class RedmineIssueMapper:
@@ -42,11 +43,11 @@ class RedmineInstanceClient(InstanceClientInterface):
         return str(self.client.url)
 
     @classmethod
-    def from_config(cls, config: dict) -> Self:
+    def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
         return cls(
             Redmine(
-                config["url"],
-                key=config["token"],
+                instance_config.url,
+                key=instance_config.token,
             )
         )
 
@@ -95,8 +96,10 @@ class RedmineClient(IssueClientInterface, RedmineInstanceClient):
         return self._project
 
     @classmethod
-    def from_config(cls, config: dict) -> Self:
+    def from_config(
+        cls, instance_config: InstanceConfig, project_config: ProjectFlatConfig
+    ) -> Self:
         return cls(
-            RedmineInstanceClient.from_config(config["instance"]).client,
-            project_id=int(config["project"]),
+            RedmineInstanceClient.instance_from_config(instance_config).client,
+            project_id=int(project_config.project),
         )

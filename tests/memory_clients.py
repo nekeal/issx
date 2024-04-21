@@ -1,6 +1,7 @@
 from issx.clients.exceptions import IssueDoesNotExistError
 from issx.clients.interfaces import IssueClientInterface
 from issx.domain.issues import Issue
+from issx.instance_managers.config_parser import InstanceConfig, ProjectFlatConfig
 
 
 class InMemoryIssueClient(IssueClientInterface):
@@ -40,14 +41,10 @@ class InMemoryIssueClient(IssueClientInterface):
         return [issue for issue in self.issues.values() if issue.title == title]
 
     @classmethod
-    def from_config(cls, config: dict) -> "InMemoryIssueClient":
+    def from_config(
+        cls, instance_config: InstanceConfig, project_config: ProjectFlatConfig
+    ) -> "InMemoryIssueClient":
         """
-        Create an instance of the InMemoryIssueClient from a configuration dictionary.
-        :param config: The configuration dictionary. Higher level code should validate
-        the configuration.
-        :return: An instance of the InMemoryIssueClient
+        Create an instance of the client from a configuration classes
         """
-        return cls(
-            initial_issues=config.get("initial_issues", []),
-            base_url=config.get("base_url", "memory://"),
-        )
+        return cls()
