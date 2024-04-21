@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Tests for client interfaces of different backends
+- Tests for generic config parser
 
 ### Changed
 - Improve gh actions configuration

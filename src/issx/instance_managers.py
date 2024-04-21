@@ -1,6 +1,5 @@
 import tomllib
 from pathlib import Path
-from typing import Any
 
 from issx.clients import SupportedBackend
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
@@ -14,12 +13,12 @@ class GenericConfigParser:
         )
 
     def get_instance_config(self, instance: str) -> dict:
-        return self._data["instances"][instance]
+        return self["instances"][instance]
 
     def get_project_config(self, project: str) -> dict:
-        return self._data["projects"][project]
+        return self["projects"][project]
 
-    def __getitem__(self, item: str) -> Any:
+    def __getitem__(self, item: str) -> dict[str, dict]:
         return self._data[item]
 
     @staticmethod
