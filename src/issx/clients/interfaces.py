@@ -76,4 +76,15 @@ class IssueClientInterface(abc.ABC):
     def from_config(
         cls, instance_config: InstanceConfig, project_config: ProjectFlatConfig
     ) -> Self:
+        """
+        Create an instance of the client from configuration classes.
+        Args:
+            instance_config: InstanceConfig to configure the client to the instance
+            project_config: ProjectFlatConfig to configure client
+            to the particular project
+
+        Returns:
+            An instance of the client
+
+        """
         pass
