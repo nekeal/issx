@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Improve gh actions configuration
+- Make use of `attrs` library for parsing config files
 
 ## [0.3.2] - 2024-04-18
 ### Added
