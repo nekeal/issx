@@ -8,8 +8,8 @@ from redminelib.resultsets import ResourceSet
 
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
+from issx.domain.config import InstanceConfig, ProjectFlatConfig
 from issx.domain.issues import Issue
-from issx.instance_managers.config_parser import InstanceConfig, ProjectFlatConfig
 
 
 class RedmineIssueMapper:

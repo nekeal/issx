@@ -7,7 +7,7 @@ from rich.text import Text
 
 from issx.clients.gitlab import GitlabClient, GitlabInstanceClient
 from issx.clients.redmine import RedmineClient, RedmineInstanceClient
-from issx.instance_managers import SupportedBackend
+from issx.domain import SupportedBackend
 from issx.instance_managers.config_parser import GenericConfigParser
 from issx.instance_managers.managers import InstanceManager
 from issx.services import CopyIssueService
