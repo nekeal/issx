@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Tests for client interfaces of different backends
 - Tests for generic config parser
+- Import linter for checking a compliance with the layered architecture
 
 ### Changed
 - Improve gh actions configuration
