@@ -2,6 +2,7 @@ import abc
 from typing import Self
 
 from issx.domain.issues import Issue
+from issx.instance_managers.config_parser import InstanceConfig, ProjectFlatConfig
 
 
 class InstanceClientInterface(abc.ABC):
@@ -27,7 +28,7 @@ class InstanceClientInterface(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def from_config(cls, config: dict) -> Self:
+    def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
         """
         Create an instance of the client from a configuration dictionary.
         :param config: The configuration dictionary. Higher level code should validate
@@ -72,5 +73,7 @@ class IssueClientInterface(abc.ABC):
 
     @classmethod
     @abc.abstractmethod
-    def from_config(cls, config: dict) -> Self:
+    def from_config(
+        cls, instance_config: InstanceConfig, project_config: ProjectFlatConfig
+    ) -> Self:
         pass

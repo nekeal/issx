@@ -6,6 +6,7 @@ from gitlab.v4.objects import CurrentUser, Project, ProjectIssue
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
 from issx.domain.issues import Issue
+from issx.instance_managers.config_parser import InstanceConfig, ProjectFlatConfig
 
 
 class IssueMapper:
@@ -30,8 +31,8 @@ class IssueMapper:
 
 class GitlabInstanceClient(InstanceClientInterface):
     @classmethod
-    def from_config(cls, config: dict) -> Self:
-        return cls(Gitlab(config["url"], private_token=config["token"]))
+    def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
+        return cls(Gitlab(instance_config.url, private_token=instance_config.token))
 
     def __init__(self, client: Gitlab):
         self.client = client
@@ -103,8 +104,10 @@ class GitlabClient(IssueClientInterface, GitlabInstanceClient):
             raise IssueDoesNotExistError(issue_id) from e
 
     @classmethod
-    def from_config(cls, config: dict) -> Self:
+    def from_config(
+        cls, instance_config: InstanceConfig, project_config: ProjectFlatConfig
+    ) -> Self:
         return cls(
-            GitlabInstanceClient.from_config(config["instance"]).client,
-            project_id=int(config["project"]),
+            GitlabInstanceClient.instance_from_config(instance_config).client,
+            project_id=int(project_config.project),
         )
