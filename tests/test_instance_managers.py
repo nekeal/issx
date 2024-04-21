@@ -1,16 +1,22 @@
+import dataclasses
 import tomllib
 from pathlib import Path
 
 import pytest
-from issx.instance_managers import GenericConfigParser
+from issx.clients import SupportedBackend
+from issx.instance_managers import (
+    GenericConfig,
+    GenericConfigParser,
+    InstanceConfig,
+    ProjectFlatConfig,
+)
 
 
-class MemoryGenericConfigParser(GenericConfigParser):
-    def __init__(self, data: dict):
-        self._data = data
-
-    def add_instance(self):
-        pass
+@dataclasses.dataclass
+class ConfigDto:
+    instance_name: str
+    project_name: str
+    data_dict: dict
 
 
 class TestGenericConfigParser:
@@ -23,6 +29,36 @@ class TestGenericConfigParser:
         return tomllib.loads(empty_config_toml)
 
     @pytest.fixture
+    def instance_config_dict(self) -> dict[str, dict]:
+        return {
+            "instance_name": {
+                "backend": "gitlab",
+                "url": "https://gitlab.com",
+                "token": "token",
+            }
+        }
+
+    @pytest.fixture
+    def project_config_dict(self, instance_config_dict):
+        return {
+            "project_name": {
+                "instance": "instance_name",
+                "project": "project_id",
+            }
+        }
+
+    @pytest.fixture
+    def config_dto(self, instance_config_dict, project_config_dict) -> ConfigDto:
+        return ConfigDto(
+            instance_name="instance_name",
+            project_name="project_name",
+            data_dict={
+                "instances": instance_config_dict,
+                "projects": project_config_dict,
+            },
+        )
+
+    @pytest.fixture
     def tmp_file(self, tmp_path):
         return tmp_path / "file"
 
@@ -31,36 +67,49 @@ class TestGenericConfigParser:
     ):
         tmp_file.write_text(empty_config_toml)
 
-        parser = GenericConfigParser(tmp_file)
+        parser = GenericConfigParser.from_file(tmp_file)
 
-        assert parser._data == empty_config
+        assert parser._data == GenericConfig(instances={}, projects={})
 
     def test_config_parse_auto_finds_config_file(self, empty_config, empty_config_toml):
+        exists = Path("issx.toml").exists()
         try:
             Path("issx.toml").write_text(empty_config_toml)
-            parser = GenericConfigParser()
+            parser = GenericConfigParser.from_file()
         finally:
-            Path("issx.toml").unlink(missing_ok=True)
-        assert parser.config_file == Path("issx.toml")
-        assert parser._data == empty_config
+            if not exists:
+                Path("issx.toml").unlink(missing_ok=True)
+        assert parser._data == GenericConfig(instances={}, projects={})
 
     def test_config_parse_raises_error_when_no_config_file_found(self, monkeypatch):
         monkeypatch.setattr(Path, "exists", lambda _: False)
         with pytest.raises(FileNotFoundError):
-            GenericConfigParser()
+            GenericConfigParser.from_file()
 
-    def test_get_instance_config(self):
-        instance_config = {"backend": "redmine"}
-        config_parser = MemoryGenericConfigParser(
-            {"instances": {"test": instance_config}}
+    def test_from_dict_raises_error_when_instance_does_not_exist(
+        self, config_dto: ConfigDto
+    ):
+        config_dto.data_dict["instances"] = {}
+        with pytest.raises(ValueError):
+            GenericConfigParser.from_dict(config_dto.data_dict)
+
+    def test_from_dict_raises_error_when_there_is_missing_required_field(
+        self, config_dto: ConfigDto
+    ):
+        config_dto.data_dict["instances"]["instance_name"].pop("url")
+        with pytest.raises(TypeError):
+            GenericConfigParser.from_dict(config_dto.data_dict)
+
+    def test_get_instance_config(self, config_dto):
+        parser = GenericConfigParser.from_dict(config_dto.data_dict)
+
+        assert parser.get_instance_config(config_dto.instance_name) == InstanceConfig(
+            backend=SupportedBackend.gitlab, url="https://gitlab.com", token="token"
         )
 
-        assert config_parser.get_instance_config("test") == instance_config
+    def test_get_project_config(self, config_dto):
+        parser = GenericConfigParser.from_dict(config_dto.data_dict)
 
-    def test_get_project_config(self):
-        project_config = {"instance": "test", "token": "token"}
-        config_parser = MemoryGenericConfigParser(
-            {"projects": {"test": project_config}}
+        assert parser.get_project_config(config_dto.project_name) == ProjectFlatConfig(
+            instance="instance_name", project="project_id"
         )
-
-        assert config_parser.get_project_config("test") == project_config

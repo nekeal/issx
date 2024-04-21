@@ -90,7 +90,7 @@ def copy(
             (target_project_name, "bold magenta"),
         )
     )
-    config = GenericConfigParser()
+    config = GenericConfigParser.from_file()
     instance_manager = InstanceManager(config)
     try:
         source_client = instance_manager.get_project_client(source_project_name)
@@ -115,7 +115,7 @@ def copy(
 @app.command()
 def auth_verify(instance_name: InstanceNameOption) -> None:
     """Verify the authentication to the instance."""
-    config = GenericConfigParser()
+    config = GenericConfigParser.from_file()
     instance_manager = InstanceManager(config)
     try:
         instance = instance_manager.get_instance_client(instance_name)

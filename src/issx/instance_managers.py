@@ -1,25 +1,76 @@
 import tomllib
 from pathlib import Path
+from typing import Self
+
+import attr
+from attrs import asdict, define, field
 
 from issx.clients import SupportedBackend
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
 
 
+@define
+class InstanceConfig:
+    backend: SupportedBackend = attr.ib(validator=attr.validators.in_(SupportedBackend))
+    url: str = attr.ib(validator=attr.validators.instance_of(str))
+    token: str = attr.ib(validator=attr.validators.instance_of(str))
+
+
+@define
+class ProjectFlatConfig:
+    instance: str = attr.ib(validator=attr.validators.instance_of(str))
+    project: str = attr.ib(validator=attr.validators.instance_of(str))
+
+
+@define
+class GenericConfig:
+    instances: dict[str, InstanceConfig]
+    projects: dict[str, ProjectFlatConfig] = field()
+
+    @projects.validator
+    def check_projects(
+        self, attribute: attr.Attribute, value: dict[str, ProjectFlatConfig]
+    ) -> None:
+        for project in value.values():
+            if project.instance not in self.instances:
+                raise ValueError(f"Instance {project.instance} not found")
+
+
 class GenericConfigParser:
-    def __init__(self, config_file: Path | None = None):
-        self.config_file = config_file or self._find_config_file()
-        self._data: dict[str, dict[str, dict]] = tomllib.loads(
-            self.config_file.read_text()
+    def __init__(self, data: GenericConfig):
+        self._data: GenericConfig = data
+
+    def get_instance_config(self, instance: str) -> InstanceConfig:
+        return self._data.instances[instance]
+
+    def get_project_config(self, project: str) -> ProjectFlatConfig:
+        return self._data.projects[project]
+
+    @classmethod
+    def from_file(cls, config_file: Path | None = None) -> Self:
+        config_file = config_file or cls._find_config_file()
+        return cls.from_dict(tomllib.loads(config_file.read_text()))
+
+    @classmethod
+    def from_dict(cls, data: dict) -> Self:
+        parsed_data = GenericConfig(
+            instances={
+                name: InstanceConfig(
+                    backend=SupportedBackend(instance.get("backend")),
+                    url=instance.get("url"),
+                    token=instance.get("token"),
+                )
+                for name, instance in data["instances"].items()
+            },
+            projects={
+                name: ProjectFlatConfig(
+                    instance=project.get("instance"),
+                    project=project.get("project"),
+                )
+                for name, project in data.get("projects", {}).items()
+            },
         )
-
-    def get_instance_config(self, instance: str) -> dict:
-        return self["instances"][instance]
-
-    def get_project_config(self, project: str) -> dict:
-        return self["projects"][project]
-
-    def __getitem__(self, item: str) -> dict[str, dict]:
-        return self._data[item]
+        return cls(parsed_data)
 
     @staticmethod
     def _find_config_file() -> Path:
@@ -53,14 +104,13 @@ class InstanceManager:
 
     def get_instance_client(self, instance: str) -> InstanceClientInterface:
         instance_config = self.config.get_instance_config(instance)
-        backend = SupportedBackend(instance_config["backend"])
-        client_class = self.backends[backend][0]
-        return client_class.from_config(instance_config)
+        client_class = self.backends[instance_config.backend][0]
+        return client_class.from_config(asdict(instance_config))
 
     def get_project_client(self, project: str) -> IssueClientInterface:
         project_config = self.config.get_project_config(project)
-        instance_config = self.config.get_instance_config(project_config["instance"])
-        project_config["instance"] = instance_config
-        backend = SupportedBackend(instance_config["backend"])
-        client_class = self.backends[backend][1]
-        return client_class.from_config(project_config)
+        instance_config = self.config.get_instance_config(project_config.instance)
+        project_config_dict = asdict(project_config)
+        project_config_dict["instance"] = asdict(instance_config)
+        client_class = self.backends[instance_config.backend][1]
+        return client_class.from_config(project_config_dict)
