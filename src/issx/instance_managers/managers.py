@@ -21,6 +21,10 @@ class InstanceManager:
     ) -> None:
         cls.backends[backend] = (instance_client_class, project_client_class)
 
+    @classmethod
+    def clear_backends(cls) -> None:
+        cls.backends.clear()
+
     def get_instance_client(self, instance: str) -> InstanceClientInterface:
         instance_config = self.config.get_instance_config(instance)
         client_class = self.backends[instance_config.backend][0]

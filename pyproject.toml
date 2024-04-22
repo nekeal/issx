@@ -124,7 +124,8 @@ addopts = """\
 #fail_under = 100 # uncomment after reaching 100% coverage
 exclude_lines = [
     'if TYPE_CHECKING:',
-    'pragma: no cover'
+    'pragma: no cover',
+    '@abc.abstractmethod',
 ]
 
 [tool.mypy]

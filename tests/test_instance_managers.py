@@ -3,12 +3,15 @@ import tomllib
 from pathlib import Path
 
 import pytest
+from issx.clients.gitlab import GitlabClient, GitlabInstanceClient
+from issx.clients.redmine import RedmineClient, RedmineInstanceClient
 from issx.domain import SupportedBackend
 from issx.domain.config import InstanceConfig, ProjectFlatConfig
 from issx.instance_managers.config_parser import (
     GenericConfig,
     GenericConfigParser,
 )
+from issx.instance_managers.managers import InstanceManager
 
 
 @dataclasses.dataclass
@@ -16,6 +19,44 @@ class ConfigDto:
     instance_name: str
     project_name: str
     data_dict: dict
+
+
+@pytest.fixture
+def instance_config_dict() -> dict[str, dict]:
+    return {
+        "instance_name": {
+            "backend": "gitlab",
+            "url": "https://gitlab.com",
+            "token": "token",
+        }
+    }
+
+
+@pytest.fixture
+def project_config_dict(instance_config_dict):
+    return {
+        "project_name": {
+            "instance": "instance_name",
+            "project": "100",
+        }
+    }
+
+
+@pytest.fixture
+def config_dto(instance_config_dict, project_config_dict) -> ConfigDto:
+    return ConfigDto(
+        instance_name="instance_name",
+        project_name="project_name",
+        data_dict={
+            "instances": instance_config_dict,
+            "projects": project_config_dict,
+        },
+    )
+
+
+@pytest.fixture
+def config(config_dto: ConfigDto) -> GenericConfigParser:
+    return GenericConfigParser.from_dict(config_dto.data_dict)
 
 
 class TestGenericConfigParser:
@@ -26,36 +67,6 @@ class TestGenericConfigParser:
     @pytest.fixture
     def empty_config(self, empty_config_toml):
         return tomllib.loads(empty_config_toml)
-
-    @pytest.fixture
-    def instance_config_dict(self) -> dict[str, dict]:
-        return {
-            "instance_name": {
-                "backend": "gitlab",
-                "url": "https://gitlab.com",
-                "token": "token",
-            }
-        }
-
-    @pytest.fixture
-    def project_config_dict(self, instance_config_dict):
-        return {
-            "project_name": {
-                "instance": "instance_name",
-                "project": "project_id",
-            }
-        }
-
-    @pytest.fixture
-    def config_dto(self, instance_config_dict, project_config_dict) -> ConfigDto:
-        return ConfigDto(
-            instance_name="instance_name",
-            project_name="project_name",
-            data_dict={
-                "instances": instance_config_dict,
-                "projects": project_config_dict,
-            },
-        )
 
     @pytest.fixture
     def tmp_file(self, tmp_path):
@@ -110,5 +121,32 @@ class TestGenericConfigParser:
         parser = GenericConfigParser.from_dict(config_dto.data_dict)
 
         assert parser.get_project_config(config_dto.project_name) == ProjectFlatConfig(
-            instance="instance_name", project="project_id"
+            instance="instance_name", project="100"
         )
+
+
+class TestInstanceManager:
+    @classmethod
+    def setup_class(cls):
+        InstanceManager.register_backend(
+            SupportedBackend.gitlab, GitlabInstanceClient, GitlabClient
+        )
+        InstanceManager.register_backend(
+            SupportedBackend.redmine, RedmineInstanceClient, RedmineClient
+        )
+
+    @classmethod
+    def teardown_class(cls):
+        InstanceManager.clear_backends()
+
+    def test_get_instance_client(self, config):
+        manager = InstanceManager(config)
+
+        assert isinstance(
+            manager.get_instance_client("instance_name"), GitlabInstanceClient
+        )
+
+    def test_get_project_client(self, config):
+        manager = InstanceManager(config)
+
+        assert isinstance(manager.get_project_client("project_name"), GitlabClient)

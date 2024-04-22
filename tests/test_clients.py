@@ -58,6 +58,11 @@ class BaseTestIssueClientInterface(abc.ABC):
         assert existing_issue == retrieved_issue
 
     @pytest.mark.asyncio
+    async def test_get_non_existent_issue_raises_error(self, issue_client):
+        with pytest.raises(IssueDoesNotExistError):
+            await issue_client.get_issue(-1)
+
+    @pytest.mark.asyncio
     async def test_find_issues_returns_a_list_of_issues(self, issue_client):
         title1, title2 = str(uuid.uuid4()), str(uuid.uuid4())
         async with asyncio.TaskGroup() as g:

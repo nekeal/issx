@@ -31,8 +31,8 @@ class InstanceClientInterface(abc.ABC):
     def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
         """
         Create an instance of the client from a configuration dictionary.
-        :param config: The configuration dictionary. Higher level code should validate
-        the configuration.
+        :param instance_config: The configuration object. Higher level code
+        should validate the configuration.
         :return: An instance of the client
         """
         pass
