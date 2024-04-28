@@ -6,7 +6,11 @@ from issx.domain.issues import Issue
 
 class InMemoryIssueClient(IssueClientInterface):
     def __init__(
-        self, initial_issues: list[Issue] | None = None, base_url: str = "memory://"
+        self,
+        initial_issues: list[Issue] | None = None,
+        base_url: str = "memory://",
+        instance_config: InstanceConfig | None = None,
+        project_config: ProjectFlatConfig | None = None,
     ):
         """
         Initialize the InMemoryIssueClient with an
@@ -17,6 +21,8 @@ class InMemoryIssueClient(IssueClientInterface):
         )
         self._current_id = max(self.issues.keys(), default=0) + 1
         self._base_url = base_url
+        self.instance_config = instance_config
+        self.project_config = project_config
 
     async def get_issue(self, issue_id: int) -> Issue:
         if issue := self.issues.get(issue_id):
@@ -47,4 +53,5 @@ class InMemoryIssueClient(IssueClientInterface):
         """
         Create an instance of the client from a configuration classes
         """
-        return cls()
+        project_config = cls.project_config_class(**(project_config.raw_config))
+        return cls(instance_config=instance_config, project_config=project_config)

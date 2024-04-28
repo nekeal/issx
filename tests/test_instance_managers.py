@@ -3,6 +3,7 @@ import tomllib
 from pathlib import Path
 
 import pytest
+from attr import define
 from issx.clients.gitlab import GitlabClient, GitlabInstanceClient
 from issx.clients.redmine import RedmineClient, RedmineInstanceClient
 from issx.domain import SupportedBackend
@@ -12,6 +13,8 @@ from issx.instance_managers.config_parser import (
     GenericConfigParser,
 )
 from issx.instance_managers.managers import InstanceManager
+
+from tests.memory_clients import InMemoryIssueClient
 
 
 @dataclasses.dataclass
@@ -114,14 +117,23 @@ class TestGenericConfigParser:
         parser = GenericConfigParser.from_dict(config_dto.data_dict)
 
         assert parser.get_instance_config(config_dto.instance_name) == InstanceConfig(
-            backend=SupportedBackend.gitlab, url="https://gitlab.com", token="token"
+            backend=SupportedBackend.gitlab,
+            url="https://gitlab.com",
+            token="token",
+            raw_config={
+                "backend": "gitlab",
+                "url": "https://gitlab.com",
+                "token": "token",
+            },
         )
 
     def test_get_project_config(self, config_dto):
         parser = GenericConfigParser.from_dict(config_dto.data_dict)
 
         assert parser.get_project_config(config_dto.project_name) == ProjectFlatConfig(
-            instance="instance_name", project="100"
+            instance="instance_name",
+            project="100",
+            raw_config={"instance": "instance_name", "project": "100"},
         )
 
 
@@ -150,3 +162,32 @@ class TestInstanceManager:
         manager = InstanceManager(config)
 
         assert isinstance(manager.get_project_client("project_name"), GitlabClient)
+
+    def test_from_config_with_custom_instance_class(self, config_dto, monkeypatch):
+        @define(kw_only=True)
+        class CustomProjectFlatConfig(ProjectFlatConfig):
+            metadata: str
+
+        class CustomInMemoryIssueClient(InMemoryIssueClient):
+            project_config_class = CustomProjectFlatConfig
+            project_config: CustomProjectFlatConfig
+
+        InstanceManager.register_backend(
+            SupportedBackend.gitlab,
+            GitlabInstanceClient,
+            CustomInMemoryIssueClient,
+        )
+        config_dto.data_dict["projects"][config_dto.project_name]["metadata"] = (
+            "metadata"
+        )
+        config = GenericConfigParser.from_dict(
+            {
+                "instances": config_dto.data_dict["instances"],
+                "projects": config_dto.data_dict["projects"],
+            }
+        )
+        manager = InstanceManager(config)
+        client = manager.get_project_client(config_dto.project_name)
+
+        assert isinstance(client, CustomInMemoryIssueClient)
+        assert client.project_config.metadata == "metadata"

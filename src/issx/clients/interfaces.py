@@ -1,5 +1,5 @@
 import abc
-from typing import Self
+from typing import ClassVar, Self
 
 from issx.domain.config import InstanceConfig, ProjectFlatConfig
 from issx.domain.issues import Issue
@@ -9,6 +9,8 @@ class InstanceClientInterface(abc.ABC):
     """
     Interface for a client that interacts with an issue tracker instance
     """
+
+    instance_config_class: ClassVar[type[InstanceConfig]] = InstanceConfig
 
     @abc.abstractmethod
     async def auth(self) -> str | None:
@@ -31,6 +33,9 @@ class InstanceClientInterface(abc.ABC):
     def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
         """
         Create an instance of the client from a configuration dictionary.
+        If required, the instance_config can be converted to an instance-specific
+        configuration according to the `instance_config_class` attribute of the client.
+
         :param instance_config: The configuration object. Higher level code
         should validate the configuration.
         :return: An instance of the client
@@ -39,6 +44,8 @@ class InstanceClientInterface(abc.ABC):
 
 
 class IssueClientInterface(abc.ABC):
+    project_config_class: ClassVar[type[ProjectFlatConfig]] = ProjectFlatConfig
+
     @abc.abstractmethod
     async def get_issue(self, issue_id: int) -> Issue:
         """
@@ -78,9 +85,14 @@ class IssueClientInterface(abc.ABC):
     ) -> Self:
         """
         Create an instance of the client from configuration classes.
+        If required, the project_config can be converted to a project-specific
+        configuration according to the `project_config_class` attribute of the client.
+
         Args:
             instance_config: InstanceConfig to configure the client to the instance
-            project_config: ProjectFlatConfig to configure client
+            project_config: ProjectFlatConfig to configure client. This config can then
+            be converted to a project-specific config according to
+            the `project_config_class` attribute of the client.
             to the particular project
 
         Returns:

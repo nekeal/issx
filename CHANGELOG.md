@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ## Added
 - Add tests for instance manager
+- Add possibility to specify a config class per instance client
 
 ## [0.4.0] - 2024-04-21
 ### Added
