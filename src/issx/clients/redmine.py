@@ -1,5 +1,6 @@
 from typing import Self
 
+from attr import asdict
 from redminelib import Redmine
 from redminelib.exceptions import ResourceNotFoundError
 from redminelib.resources import Issue as RedmineIssue
@@ -44,6 +45,7 @@ class RedmineInstanceClient(InstanceClientInterface):
 
     @classmethod
     def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
+        instance_config = cls.instance_config_class(**asdict(instance_config))
         return cls(
             Redmine(
                 instance_config.url,
@@ -99,6 +101,7 @@ class RedmineClient(IssueClientInterface, RedmineInstanceClient):
     def from_config(
         cls, instance_config: InstanceConfig, project_config: ProjectFlatConfig
     ) -> Self:
+        project_config = cls.project_config_class(**asdict(project_config))
         return cls(
             RedmineInstanceClient.instance_from_config(instance_config).client,
             project_id=int(project_config.project),

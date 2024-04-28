@@ -46,6 +46,7 @@ class GenericConfigParser:
                     backend=SupportedBackend(instance.get("backend")),
                     url=instance.get("url"),
                     token=instance.get("token"),
+                    raw_config=instance,
                 )
                 for name, instance in data["instances"].items()
             },
@@ -53,6 +54,7 @@ class GenericConfigParser:
                 name: ProjectFlatConfig(
                     instance=project.get("instance"),
                     project=project.get("project"),
+                    raw_config=project,
                 )
                 for name, project in data.get("projects", {}).items()
             },

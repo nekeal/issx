@@ -1,5 +1,6 @@
 from typing import Self, cast
 
+from attr import asdict
 from gitlab import Gitlab, GitlabGetError
 from gitlab.v4.objects import CurrentUser, Project, ProjectIssue
 
@@ -30,10 +31,6 @@ class IssueMapper:
 
 
 class GitlabInstanceClient(InstanceClientInterface):
-    @classmethod
-    def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
-        return cls(Gitlab(instance_config.url, private_token=instance_config.token))
-
     def __init__(self, client: Gitlab):
         self.client = client
 
@@ -51,6 +48,11 @@ class GitlabInstanceClient(InstanceClientInterface):
 
     def get_instance_url(self) -> str:
         return self.client.url
+
+    @classmethod
+    def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
+        instance_config = cls.instance_config_class(**asdict(instance_config))
+        return cls(Gitlab(instance_config.url, private_token=instance_config.token))
 
 
 class GitlabClient(IssueClientInterface, GitlabInstanceClient):
@@ -107,6 +109,7 @@ class GitlabClient(IssueClientInterface, GitlabInstanceClient):
     def from_config(
         cls, instance_config: InstanceConfig, project_config: ProjectFlatConfig
     ) -> Self:
+        project_config = cls.project_config_class(**asdict(project_config))
         return cls(
             GitlabInstanceClient.instance_from_config(instance_config).client,
             project_id=int(project_config.project),
