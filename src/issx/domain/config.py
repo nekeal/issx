@@ -6,7 +6,9 @@ from issx.domain import SupportedBackend
 
 @define
 class InstanceConfig:
-    backend: SupportedBackend = attr.ib(validator=attr.validators.in_(SupportedBackend))
+    backend: SupportedBackend = attr.ib(
+        validator=attr.validators.in_(SupportedBackend.__members__.values())
+    )
     url: str = attr.ib(validator=attr.validators.instance_of(str))
     token: str = attr.ib(validator=attr.validators.instance_of(str))
     raw_config: dict = attr.ib(
