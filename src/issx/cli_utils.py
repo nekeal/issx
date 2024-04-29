@@ -28,8 +28,11 @@ class RichConfigReader:
             if field.type
             else None
         )
+        ask_kwargs = {}
+        if field.default:
+            ask_kwargs["default"] = str(field.default)
         return Prompt.ask(
             f"Enter [bold]{field.name}[/bold]",
-            default=str(field.default) if field.default else "",
+            default=str(field.default) if field.default else ...,  # type: ignore[arg-type]
             choices=choices,
         )
