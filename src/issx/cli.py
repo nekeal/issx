@@ -188,8 +188,7 @@ def generate_project(
     new_config = RichConfigReader().read(ProjectFlatConfig)
 
     console.print()
-    console.print(Syntax(new_config.as_toml(f"projects.{project_name}"), "toml"))
-
+    console.print(Text(new_config.as_toml(f"projects.{project_name}")))
     config = GenericConfigParser.from_file()
 
     try:

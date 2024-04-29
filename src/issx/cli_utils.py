@@ -30,6 +30,6 @@ class RichConfigReader:
         )
         return Prompt.ask(
             f"Enter [bold]{field.name}[/bold]",
-            default=str(field.default),
+            default=str(field.default) if field.default else "",
             choices=choices,
         )
