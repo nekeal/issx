@@ -1,0 +1,940 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="cli_usage/">
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.16">
+    
+    
+      
+        <title>Issx</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#issx" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Issx" class="md-header__button md-logo" aria-label="Issx" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Issx
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nekeal/issx" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Issx" class="md-nav__button md-logo" aria-label="Issx" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Issx
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nekeal/issx" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disclaimer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-pip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using pip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-pipx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using pipx
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializing-the-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initializing the configuration file
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initializing the configuration file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-a-new-instances-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generate a new instance's configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-a-new-projects-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generate a new project's configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifying-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifying authentication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration file
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#releasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Releasing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-commit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="cli_usage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLI Usage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backends/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Supported Backends
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api_docs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    API documentation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#disclaimer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disclaimer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-pip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using pip
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-pipx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using pipx
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializing-the-configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initializing the configuration file
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Initializing the configuration file">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-a-new-instances-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generate a new instance's configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generate-a-new-projects-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generate a new project's configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verifying-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verifying authentication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration file
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      Development
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Development">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#releasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Releasing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-commit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="issx">Issx<a class="headerlink" href="#issx" title="Permanent link">&para;</a></h1>
+<p><a href="https://pypi.python.org/pypi/issx/"><img alt="PyPI" src="https://img.shields.io/pypi/v/issx?style=flat-square" /></a>
+<a href="https://pypi.python.org/pypi/issx/"><img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/issx?style=flat-square" /></a>
+<a href="https://pypi.python.org/pypi/issx/"><img alt="PyPI - License" src="https://img.shields.io/pypi/l/issx?style=flat-square" /></a>
+<a href="https://github.com/nekeal/cookiecutter-python-package"><img alt="Coookiecutter - Nekeal" src="https://img.shields.io/badge/cookiecutter-nekeal-00a86b?style=flat-square&amp;logo=cookiecutter&amp;logoColor=D4AFff&amp;link=https://github.com/nekeal/cookiecutter-python-package" /></a></p>
+<hr />
+<p><a href="https://nekeal.github.io/issx">Documentation</a> |
+<a href="https://github.com/nekeal/issx">Source Code</a> |
+<a href="https://pypi.org/project/issx/">PyPI</a></p>
+<hr />
+<p>Tool for synchronizing issues between different services (e.g. GitHub, Gitlab Jira, etc.)</p>
+<h2 id="disclaimer">Disclaimer<a class="headerlink" href="#disclaimer" title="Permanent link">&para;</a></h2>
+<p>Please note that <code>issx</code> is currently in the early stages of development. As such,
+it may be subject to significant changes and improvements.
+The links to PyPI and documentation provided above are placeholders and may not be operational yet.
+Users are encouraged to consult the GitHub repository for the latest updates and information on this project.
+We appreciate your interest and patience as we work to enhance <code>issx</code>.</p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<h3 id="using-pip">Using pip<a class="headerlink" href="#using-pip" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>issx
+</code></pre></div>
+<h3 id="using-pipx">Using pipx<a class="headerlink" href="#using-pipx" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>pipx<span class="w"> </span>install<span class="w"> </span>issx
+</code></pre></div>
+<h2 id="basic-usage">Basic usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
+<p>The basic functionality of <code>issx</code> is provided through the <code>issx</code> command-line interface (CLI).
+For a full list of available commands and options, please refer to the <a href="https://nekeal.github.io/issx/cli_reference">CLI reference</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code>issx</code> CLI requires a configuration file to be present in the working directory (<code>issx.toml</code>) or in <code>~/.config/issx.toml</code>.
+Refer to the <a href="#configuration-file">Configuration file</a> section for more information.</p>
+</div>
+<h3 id="initializing-the-configuration-file">Initializing the configuration file<a class="headerlink" href="#initializing-the-configuration-file" title="Permanent link">&para;</a></h3>
+<p>There is a set of dedicated commands to initialize the configuration file and add instances and projects to it.</p>
+<h4 id="generate-a-new-instances-configuration">Generate a new instance's configuration<a class="headerlink" href="#generate-a-new-instances-configuration" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code>&gt;<span class="w"> </span>issx<span class="w"> </span>config<span class="w"> </span>generate-instance<span class="w"> </span>--instance<span class="w"> </span>gitlab-cloud
+
+Enter<span class="w"> </span>backend<span class="w"> </span><span class="o">[</span>gitlab/redmine<span class="o">]</span>:<span class="w"> </span>gitlab
+Enter<span class="w"> </span>url:<span class="w"> </span>https://gitlab.com
+Enter<span class="w"> </span>token:<span class="w"> </span>token
+
+<span class="o">[</span>instances.gitlab-cloud<span class="o">]</span>
+<span class="nv">backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;gitlab&#39;</span>
+<span class="nv">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;https://gitlab.com&#39;</span>
+<span class="nv">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;token&#39;</span>
+</code></pre></div>
+The output should be then copied to the <a href="#configuration-file">Configuration file</a>.</p>
+<h4 id="generate-a-new-projects-configuration">Generate a new project's configuration<a class="headerlink" href="#generate-a-new-projects-configuration" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>&gt;<span class="w"> </span>issx<span class="w"> </span>config<span class="w"> </span>generate-project<span class="w"> </span>--project<span class="w"> </span>my-personal-project
+Enter<span class="w"> </span>instance:<span class="w"> </span>gitlab-cloud<span class="w">   </span><span class="c1"># The name of the instance that is already configured</span>
+Enter<span class="w"> </span>project:<span class="w"> </span><span class="m">11111111</span><span class="w">        </span><span class="c1"># Identifier of the project characteristic for the instance&#39;s backend</span>
+
+<span class="o">[</span>projects.my-personal-project<span class="o">]</span>
+<span class="nv">instance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;gitlab-cloud&#39;</span>
+<span class="nv">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;11111111&#39;</span>
+<span class="sb">````</span>
+
+The<span class="w"> </span>output<span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span><span class="k">then</span><span class="w"> </span>copied<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span><span class="o">[</span>Configuration<span class="w"> </span>file<span class="o">](</span><span class="c1">#configuration-file).</span>
+
+<span class="c1">### Copying issues</span>
+It<span class="w"> </span>allows<span class="w"> </span>to<span class="w"> </span>copy<span class="w"> </span>issues<span class="w"> </span>from<span class="w"> </span>one<span class="w"> </span><span class="o">[</span>configured<span class="o">](</span><span class="c1">#configuration-file) project to another.</span>
+
+<span class="sb">```</span>shell<span class="w"> </span><span class="nv">title</span><span class="o">=</span><span class="s2">&quot;Copy an issue&quot;</span>
+issx<span class="w"> </span>copy<span class="w"> </span>--source<span class="o">=</span>&lt;project_name&gt;<span class="w"> </span>--target<span class="o">=</span>&lt;project_name&gt;<span class="w"> </span>&lt;issue-id&gt;
+</code></pre></div>
+<p>where <code>source</code> and <code>target</code> are the names of the projects configured in the configuration file.</p>
+<p>Optionally you can customize the issue title and description by providing <code>--title-format/-T</code> and <code>--description-format/-D</code> flags.
+The format should be a string with placeholders for the issue fields (e.g. <code>{title}</code>, <code>{description}</code>, <code>{id}</code> etc.).</p>
+<p>Assigning the issue to the current user is also possible by providing <code>--assign-to-me/-M</code> flag.</p>
+<div class="highlight"><span class="filename">Copy an issue with custom title and description assigning it to the current user</span><pre><span></span><code>issx<span class="w"> </span>copy<span class="w"> </span>--source<span class="o">=</span>&lt;project_name&gt;<span class="w"> </span>--target<span class="o">=</span>&lt;project_name&gt;<span class="w">  </span>-T<span class="w"> </span><span class="s2">&quot;[copied] {title}&quot;</span><span class="w"> </span>-D<span class="w"> </span><span class="s2">&quot;Description: {description}&quot;</span><span class="w"> </span>-M<span class="w"> </span>&lt;issue-id&gt;
+</code></pre></div>
+<h3 id="verifying-authentication">Verifying authentication<a class="headerlink" href="#verifying-authentication" title="Permanent link">&para;</a></h3>
+<p>To validate the authentication with a newly configured instance, you can use command <code>issx auth-verify</code>:
+<div class="highlight"><pre><span></span><code>issx<span class="w"> </span>auth-verify<span class="w"> </span>--instance<span class="o">=</span>&lt;instance_name&gt;
+</code></pre></div></p>
+<h2 id="configuration-file">Configuration file<a class="headerlink" href="#configuration-file" title="Permanent link">&para;</a></h2>
+<p>The configuration file can be either in the working directory (<code>issx.toml</code>) or in <code>~/.config/issx.toml</code>.</p>
+<p>It should have the following structure:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[instances.INSTANCE_NAME]</span>
+<span class="w">    </span><span class="n">backend</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;gitlab&quot;</span><span class="w"> </span><span class="err">/</span><span class="w"> </span><span class="s2">&quot;redmine&quot;</span>
+<span class="w">    </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;absolute url to the instance&gt;&quot;</span>
+<span class="w">    </span><span class="n">token</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;API token used for authentication&gt;&quot;</span>
+
+<span class="k">[projects.PROJECT_NAME]</span>
+<span class="w">    </span><span class="n">instance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;INSTANCE_NAME&quot;</span>
+<span class="w">    </span><span class="n">project</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;&lt;project_id&gt;&quot;</span>
+</code></pre></div>
+<p><code>Instances</code> section is used to configure the instances of the services (e.g. Gitlab, Redmine)
+that <code>issx</code> will interact with.</p>
+<p><code>Projects</code> section is used to configure the projects that <code>issx</code> will work with. Each project should be associated with
+an instance.
+<code>project</code> field should contain the project id available in the chosen instance (usually it is a number).</p>
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Clone this repository</li>
+<li>Requirements:</li>
+<li><a href="https://python-poetry.org/">Poetry</a></li>
+<li>Python 3.11+</li>
+<li>Create a virtual environment and install the dependencies</li>
+</ul>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>install
+</code></pre></div>
+<ul>
+<li>Activate the virtual environment</li>
+</ul>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>shell
+</code></pre></div>
+<h3 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>pytest
+</code></pre></div>
+<h3 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h3>
+<p>The documentation is automatically generated from the content of the <a href="https://github.com/nekeal/issx/tree/master/docs">docs directory</a> and from the docstrings
+ of the public signatures of the source code. The documentation is updated and published as a <a href="https://pages.github.com/">Github Pages page</a> automatically as part each release.</p>
+<h3 id="releasing">Releasing<a class="headerlink" href="#releasing" title="Permanent link">&para;</a></h3>
+<p>Trigger the <a href="https://github.com/nekeal/issx/actions/workflows/draft_release.yml">Draft release workflow</a>
+(press <em>Run workflow</em>). This will update the changelog &amp; version and create a GitHub release which is in <em>Draft</em> state.</p>
+<p>Find the draft release from the
+<a href="https://github.com/nekeal/issx/releases">GitHub releases</a> and publish it. When
+ a release is published, it'll trigger <a href="https://github.com/nekeal/issx/blob/master/.github/workflows/release.yml">release</a> workflow which creates PyPI
+ release and deploys updated documentation.</p>
+<h3 id="pre-commit">Pre-commit<a class="headerlink" href="#pre-commit" title="Permanent link">&para;</a></h3>
+<p>Pre-commit hooks run all the auto-formatting (<code>ruff format</code>), linters (e.g. <code>ruff</code> and <code>mypy</code>), and other quality
+ checks to make sure the changeset is in good shape before a commit/push happens.</p>
+<p>You can install the hooks with (runs for each commit):</p>
+<div class="highlight"><pre><span></span><code>pre-commit<span class="w"> </span>install
+</code></pre></div>
+<p>Or if you want them to run only for each push:</p>
+<div class="highlight"><pre><span></span><code>pre-commit<span class="w"> </span>install<span class="w"> </span>-t<span class="w"> </span>pre-push
+</code></pre></div>
+<p>Or if you want e.g. want to run all checks manually for all files:</p>
+<div class="highlight"><pre><span></span><code>pre-commit<span class="w"> </span>run<span class="w"> </span>--all-files
+</code></pre></div>
+<hr />
+<p>This project was generated using the <a href="https://github.com/nekeal/cookiecutter-python-package">nekeal-python-package-cookiecutter</a> template.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.copy"], "search": "assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.bd41221c.min.js"></script>
+      
+    
+  </body>
+</html>
