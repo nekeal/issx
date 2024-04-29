@@ -45,6 +45,40 @@ For a full list of available commands and options, please refer to the [CLI refe
     The `issx` CLI requires a configuration file to be present in the working directory (`issx.toml`) or in `~/.config/issx.toml`.
     Refer to the [Configuration file](#configuration-file) section for more information.
 
+### Initializing the configuration file
+
+There is a set of dedicated commands to initialize the configuration file and add instances and projects to it.
+
+#### Generate a new instance's configuration
+
+```shell
+> issx config generate-instance --instance gitlab-cloud
+
+Enter backend [gitlab/redmine]: gitlab
+Enter url: https://gitlab.com
+Enter token: token
+
+[instances.gitlab-cloud]
+backend = 'gitlab'
+url = 'https://gitlab.com'
+token = 'token'
+```
+The output should be then copied to the [Configuration file](#configuration-file).
+
+#### Generate a new project's configuration
+
+```shell
+> issx config generate-project --project my-personal-project
+Enter instance: gitlab-cloud   # The name of the instance that is already configured
+Enter project: 11111111        # Identifier of the project characteristic for the instance's backend
+
+[projects.my-personal-project]
+instance = 'gitlab-cloud'
+project = '11111111'
+````
+
+The output should be then copied to the [Configuration file](#configuration-file).
+
 ### Copying issues
 It allows to copy issues from one [configured](#configuration-file) project to another.
 

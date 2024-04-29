@@ -3,16 +3,21 @@ from typing import Annotated
 
 import typer
 from rich.console import Console
+from rich.syntax import Syntax
 from rich.text import Text
 
+from issx.cli_utils import RichConfigReader
 from issx.clients.gitlab import GitlabClient, GitlabInstanceClient
 from issx.clients.redmine import RedmineClient, RedmineInstanceClient
 from issx.domain import SupportedBackend
+from issx.domain.config import InstanceConfig, ProjectFlatConfig
 from issx.instance_managers.config_parser import GenericConfigParser
 from issx.instance_managers.managers import InstanceManager
 from issx.services import CopyIssueService
 
 app = typer.Typer(no_args_is_help=True)
+config_app = typer.Typer(name="config", no_args_is_help=True)
+app.add_typer(config_app, name="config")
 
 BackendOption = Annotated[SupportedBackend, typer.Option()]
 InstanceNameOption = Annotated[str, typer.Option("--instance")]
@@ -143,6 +148,64 @@ def auth_verify(instance_name: InstanceNameOption) -> None:
             sep="\n",
             style="green bold italic",
         )
+
+
+@config_app.command()
+def generate_instance(
+    instance_name: Annotated[
+        str,
+        typer.Option(
+            "--instance",
+            help="Name of then instance to generate new_config for."
+            " Only alphanumeric and -_ allowed",
+        ),
+    ],
+) -> None:
+    """Generate instance's new_config string"""
+
+    new_config = RichConfigReader().read(InstanceConfig)
+    console.print()
+    console.print(Syntax(new_config.as_toml(f"instances.{instance_name}"), "toml"))
+
+    console.print(
+        "\nSuccess!\nCopy the above config to your config file", style="green"
+    )
+
+
+@config_app.command()
+def generate_project(
+    project_name: Annotated[
+        str,
+        typer.Option(
+            "--project",
+            help="Name of then project to generate new_config for."
+            " Only alphanumeric and -_ allowed",
+        ),
+    ],
+) -> None:
+    """Generate project's new_config string. Instance must be already configured."""
+
+    new_config = RichConfigReader().read(ProjectFlatConfig)
+
+    console.print()
+    console.print(Syntax(new_config.as_toml(f"projects.{project_name}"), "toml"))
+
+    config = GenericConfigParser.from_file()
+
+    try:
+        config.get_instance_config(new_config.instance)
+    except KeyError:
+        console.print(
+            f"\nWarning: instance [bold]{new_config.instance}[/bold] not found"
+            f" in the config file. If you want to generate a missing config run"
+            f" [bold]issx config generate-instance --instance {new_config.instance}"
+            f"[/bold] command",
+            style="yellow",
+        )
+
+    console.print(
+        "\nSuccess!\nCopy the above config to your config file", style="green"
+    )
 
 
 if __name__ == "__main__":
