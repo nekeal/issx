@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "issx"
-version = "0.5.3"
+version = "0.5.4"
 description = "Tool for synchronizing issues between different services"
 authors = [
     "nekeal <szymon.sc.cader@gmail.com>",
