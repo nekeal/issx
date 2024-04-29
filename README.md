@@ -75,7 +75,7 @@ Enter project: 11111111        # Identifier of the project characteristic for th
 [projects.my-personal-project]
 instance = 'gitlab-cloud'
 project = '11111111'
-````
+```
 
 The output should be then copied to the [Configuration file](#configuration-file).
 
