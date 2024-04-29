@@ -3,7 +3,6 @@ from typing import Annotated
 
 import typer
 from rich.console import Console
-from rich.syntax import Syntax
 from rich.text import Text
 
 from issx.cli_utils import RichConfigReader
@@ -165,7 +164,7 @@ def generate_instance(
 
     new_config = RichConfigReader().read(InstanceConfig)
     console.print()
-    console.print(Syntax(new_config.as_toml(f"instances.{instance_name}"), "toml"))
+    console.print(Text(new_config.as_toml(f"projects.{instance_name}")))
 
     console.print(
         "\nSuccess!\nCopy the above config to your config file", style="green"
