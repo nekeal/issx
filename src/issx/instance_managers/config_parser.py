@@ -54,6 +54,7 @@ class GenericConfigParser:
                 name: ProjectFlatConfig(
                     instance=project.get("instance"),
                     project=project.get("project"),
+                    issue_title_template=project.get("issue_title_template"),
                     raw_config=project,
                 )
                 for name, project in data.get("projects", {}).items()

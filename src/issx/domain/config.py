@@ -1,4 +1,5 @@
 from collections.abc import Iterable
+from typing import cast
 
 import attr
 from attr import define
@@ -58,3 +59,9 @@ class InstanceConfig(BaseConfig):
 class ProjectFlatConfig(BaseConfig):
     instance: str = attr.ib(validator=attr.validators.instance_of(str))
     project: str = attr.ib(validator=attr.validators.instance_of(str))
+    issue_title_template: str | None = attr.ib(
+        default=cast(
+            str | None, "{title}"
+        ),  # to satisfy mypy https://github.com/python-attrs/attrs/issues/799
+        validator=attr.validators.optional(attr.validators.instance_of(str)),
+    )

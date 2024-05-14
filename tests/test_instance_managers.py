@@ -41,6 +41,7 @@ def project_config_dict(instance_config_dict):
         "project_name": {
             "instance": "instance_name",
             "project": "100",
+            "issue_title_template": "{title}",
         }
     }
 
@@ -133,7 +134,11 @@ class TestGenericConfigParser:
         assert parser.get_project_config(config_dto.project_name) == ProjectFlatConfig(
             instance="instance_name",
             project="100",
-            raw_config={"instance": "instance_name", "project": "100"},
+            raw_config={
+                "instance": "instance_name",
+                "project": "100",
+                "issue_title_template": "{title}",
+            },
         )
 
 

@@ -15,7 +15,9 @@ from issx.instance_managers.managers import InstanceManager
 from issx.services import CopyIssueService
 
 app = typer.Typer(no_args_is_help=True)
-config_app = typer.Typer(name="config", no_args_is_help=True)
+config_app = typer.Typer(
+    name="config", no_args_is_help=True, help="Commands for configuration of issx"
+)
 app.add_typer(config_app, name="config")
 
 BackendOption = Annotated[SupportedBackend, typer.Option()]
@@ -56,7 +58,7 @@ def copy(
             help="Template of a new issue title. Can contain placeholders of the"
             " issue attributes: {id}, {title}, {description}, {web_url}, {reference}",
         ),
-    ] = "{title}",
+    ] = "",
     description_format: Annotated[
         str,
         typer.Option(
@@ -104,6 +106,11 @@ def copy(
         console.print_exception()
         console.print("Error when configuring client instance.\n", style="red")
         raise typer.Exit(1) from e
+    title_format = (
+        title_format
+        or config.get_project_config(target_project_name).issue_title_template
+        or "{title}"
+    )
     new_issue = asyncio.run(
         CopyIssueService(source_client, target_client).copy(
             issue_id,

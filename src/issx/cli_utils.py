@@ -1,3 +1,4 @@
+import inspect
 from enum import Enum
 from typing import Any, TypeVar
 
@@ -25,7 +26,7 @@ class RichConfigReader:
                 if issubclass(field.type, Enum)
                 else None
             )
-            if field.type
+            if field.type and inspect.isclass(field.type)
             else None
         )
         ask_kwargs = {}

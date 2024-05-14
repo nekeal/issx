@@ -69,12 +69,14 @@ The output should be then copied to the [Configuration file](#configuration-file
 
 ```shell
 > issx config generate-project --project my-personal-project
-Enter instance: gitlab-cloud   # The name of the instance that is already configured
-Enter project: 11111111        # Identifier of the project characteristic for the instance's backend
+Enter instance: gitlab-cloud          # The name of the instance that is already configured
+Enter project: 11111111               # Identifier of the project characteristic for the instance's backend
+Enter issue_title_template ({title}):  # Optional template for issue title (default: {title})
 
 [projects.my-personal-project]
 instance = 'gitlab-cloud'
 project = '11111111'
+issue_title_template = '{title}'
 ```
 
 The output should be then copied to the [Configuration file](#configuration-file).
