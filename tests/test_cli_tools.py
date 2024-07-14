@@ -1,6 +1,6 @@
 from unittest import mock
 
-from attr import define
+from attrs import define
 from issx.cli_utils import RichConfigReader
 from issx.domain.config import BaseConfig
 from rich.prompt import Prompt

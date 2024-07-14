@@ -1,6 +1,6 @@
 from typing import Self
 
-from attr import asdict
+from attrs import asdict
 from redminelib import Redmine
 from redminelib.exceptions import ResourceNotFoundError
 from redminelib.resources import Issue as RedmineIssue

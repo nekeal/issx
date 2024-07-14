@@ -149,6 +149,7 @@ disallow_untyped_defs = false
 
 [tool.importlinter]
 root_package = "issx"
+include_external_packages = true
 
 [[tool.importlinter.contracts]]
 name = "Layered Architecture"
@@ -159,3 +160,8 @@ layers = [
     "issx.clients",
     "issx.domain",
 ]
+[[tool.importlinter.contracts]]
+name = "Don't use obsolete attr API"
+type = "forbidden"
+source_modules = ["issx"]
+forbidden_modules = ["attr"]

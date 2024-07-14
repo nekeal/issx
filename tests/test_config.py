@@ -1,10 +1,10 @@
-import attr
+import attrs
 from issx.domain.config import InstanceConfig
 
 
 class TestInstanceConfig:
     def test_meaningful_fields(self):
-        fields = attr.fields(InstanceConfig)
+        fields = attrs.fields(InstanceConfig)
         assert InstanceConfig.get_meaningful_fields() == [
             fields.backend,
             fields.url,

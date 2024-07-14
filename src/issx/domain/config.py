@@ -1,8 +1,8 @@
 from collections.abc import Iterable
 from typing import cast
 
-import attr
-from attr import define
+import attrs
+from attrs import define, field
 
 from issx.domain import SupportedBackend
 
@@ -14,19 +14,19 @@ class BaseConfig:
     that should store the raw dictionary that was used to create the object.
     """
 
-    raw_config: dict = attr.ib(
-        validator=attr.validators.instance_of(dict),
+    raw_config: dict = field(
+        validator=attrs.validators.instance_of(dict),
         factory=dict,
     )
 
     @classmethod
-    def get_meaningful_fields(cls) -> Iterable[attr.Attribute]:
+    def get_meaningful_fields(cls) -> Iterable[attrs.Attribute]:
         """
         Get all fields except the raw_config field.
 
         Returns: Iterable of fields
         """
-        fields = attr.fields(cls)
+        fields = attrs.fields(cls)
         return [field for field in fields if field != fields.raw_config]
 
     def as_toml(self, key: str) -> str:
@@ -48,20 +48,20 @@ class BaseConfig:
 
 @define(kw_only=True)
 class InstanceConfig(BaseConfig):
-    backend: SupportedBackend = attr.ib(
-        validator=attr.validators.in_(SupportedBackend.__members__.values())
+    backend: SupportedBackend = field(
+        validator=attrs.validators.in_(SupportedBackend.__members__.values())
     )
-    url: str = attr.ib(validator=attr.validators.instance_of(str))
-    token: str = attr.ib(validator=attr.validators.instance_of(str))
+    url: str = field(validator=attrs.validators.instance_of(str))
+    token: str = field(validator=attrs.validators.instance_of(str))
 
 
 @define(kw_only=True)
 class ProjectFlatConfig(BaseConfig):
-    instance: str = attr.ib(validator=attr.validators.instance_of(str))
-    project: str = attr.ib(validator=attr.validators.instance_of(str))
-    issue_title_template: str | None = attr.ib(
+    instance: str = field(validator=attrs.validators.instance_of(str))
+    project: str = field(validator=attrs.validators.instance_of(str))
+    issue_title_template: str | None = field(
         default=cast(
             str | None, "{title}"
         ),  # to satisfy mypy https://github.com/python-attrs/attrs/issues/799
-        validator=attr.validators.optional(attr.validators.instance_of(str)),
+        validator=attrs.validators.optional(attrs.validators.instance_of(str)),
     )

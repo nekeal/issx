@@ -3,7 +3,7 @@ import tomllib
 from pathlib import Path
 
 import pytest
-from attr import define
+from attrs import define
 from issx.clients.gitlab import GitlabClient, GitlabInstanceClient
 from issx.clients.redmine import RedmineClient, RedmineInstanceClient
 from issx.domain import SupportedBackend

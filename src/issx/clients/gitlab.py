@@ -1,6 +1,6 @@
 from typing import Self, cast
 
-from attr import asdict
+from attrs import asdict
 from gitlab import Gitlab, GitlabGetError
 from gitlab.v4.objects import CurrentUser, Project, ProjectIssue
 

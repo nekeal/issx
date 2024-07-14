@@ -1,10 +1,10 @@
-import attr
+from attrs import field, frozen
 
 
-@attr.s()
+@frozen
 class Issue:
-    id: int = attr.ib()
-    title: str = attr.ib()
-    description: str = attr.ib()
-    web_url: str = attr.ib(default=None)
-    reference: str = attr.ib(default=None)
+    id: int = field()
+    title: str = field()
+    description: str = field()
+    web_url: str = field(default=None)
+    reference: str = field(default=None)

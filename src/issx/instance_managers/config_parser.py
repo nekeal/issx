@@ -2,8 +2,7 @@ import tomllib
 from pathlib import Path
 from typing import Self
 
-import attr
-from attr import define, field
+from attrs import define, field, Attribute
 
 from issx.domain import SupportedBackend
 from issx.domain.config import InstanceConfig, ProjectFlatConfig
@@ -16,7 +15,7 @@ class GenericConfig:
 
     @projects.validator
     def validate_projects(
-        self, attribute: attr.Attribute, value: dict[str, ProjectFlatConfig]
+        self, attribute: Attribute, value: dict[str, ProjectFlatConfig]
     ) -> None:
         for project in value.values():
             if project.instance not in self.instances:

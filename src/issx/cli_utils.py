@@ -2,7 +2,7 @@ import inspect
 from enum import Enum
 from typing import Any, TypeVar
 
-from attr import Attribute
+from attrs import Attribute
 from rich.prompt import Prompt
 
 from issx.domain.config import BaseConfig
