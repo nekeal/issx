@@ -53,6 +53,14 @@ class InstanceConfig(BaseConfig):
     )
     url: str = attr.ib(validator=attr.validators.instance_of(str))
     token: str = attr.ib(validator=attr.validators.instance_of(str))
+    basic_auth_user: str | None = attr.ib(
+        default=None,
+        validator=attr.validators.optional(attr.validators.instance_of(str)),
+    )
+    basic_auth_password: str | None = attr.ib(
+        default=None,
+        validator=attr.validators.optional(attr.validators.instance_of(str)),
+    )
 
 
 @define(kw_only=True)

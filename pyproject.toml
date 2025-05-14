@@ -47,6 +47,7 @@ python-kacl = "*"
 ruff = "*"
 pytest-asyncio = "^0.23.6"
 import-linter = "^2.0"
+types-requests = "^2.32.0.20250328"
 
 [tool.poetry.group.docs.dependencies]
 mkdocstrings = {version = ">=0.23", extras = ["python"]}

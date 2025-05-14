@@ -6,6 +6,7 @@ from redminelib.exceptions import ResourceNotFoundError
 from redminelib.resources import Issue as RedmineIssue
 from redminelib.resources import Project
 from redminelib.resultsets import ResourceSet
+from requests.auth import HTTPBasicAuth
 
 from issx.clients.exceptions import IssueDoesNotExistError, ProjectDoesNotExistError
 from issx.clients.interfaces import InstanceClientInterface, IssueClientInterface
@@ -46,10 +47,21 @@ class RedmineInstanceClient(InstanceClientInterface):
     @classmethod
     def instance_from_config(cls, instance_config: InstanceConfig) -> Self:
         instance_config = cls.instance_config_class(**asdict(instance_config))
+        additional_kwargs = {}
+        if instance_config.basic_auth_user and instance_config.basic_auth_password:
+            additional_kwargs = {
+                "requests": {
+                    "auth": HTTPBasicAuth(
+                        instance_config.basic_auth_user,
+                        instance_config.basic_auth_password,
+                    )
+                }
+            }
         return cls(
             Redmine(
                 instance_config.url,
                 key=instance_config.token,
+                **additional_kwargs,
             )
         )
 

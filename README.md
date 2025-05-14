@@ -129,6 +129,20 @@ that `issx` will interact with.
 an instance.
 `project` field should contain the project id available in the chosen instance (usually it is a number).
 
+### Basic auth
+
+For Redmine instances that use basic authentication, you can specify the credentials using `basic_auth_user` and
+`basic_auth_password` properties in the instance configuration:
+
+```toml
+[instances.INSTANCE_NAME]
+    backend = "redmine"
+    url = "<absolute url to the instance>"
+    token = "<API token used for authentication>"
+    basic_auth_user = "username"
+    basic_auth_password = "password"
+```
+
 ## Development
 
 * Clone this repository
